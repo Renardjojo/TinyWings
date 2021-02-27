@@ -25,7 +25,7 @@ public class Chunk : MonoBehaviour
     
     public void Apply(EType functionType, EInflexionType inflexionType, Rect dimension)
     {
-        transform.GetChild(0).position = new Vector3(dimension.x, dimension.y, 0);
+        transform.GetChild(0).position = new Vector3(dimension.x + dimension.width / 2, dimension.y + dimension.height / 2, 0);
         transform.GetChild(0).localScale = new Vector3(dimension.width, dimension.height, 0);
         
         switch (inflexionType)
