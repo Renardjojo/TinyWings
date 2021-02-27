@@ -16,9 +16,29 @@ public class WorldGenerator : MonoBehaviour
     public EGenerationType generationType;
     private Chunk[] chunks; // queue
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField]
+    private float maxHeight = 0.0f;
+
+    void Start()
     {
-        
+        switch(generationType)
+        {
+            case EGenerationType.RANDOM:
+                GenerateRandomChunks();
+                break;
+            case 0:
+                break;
+        }
+    }
+    
+    private void GenerateRandomChunks()
+    {
+        for (int i = 0; i < chunks.Length; i++)
+        {
+            Vector3 pos = Vector3.zero;
+            
+            Instantiate(chunkPrefab, pos, Quaternion.identity);
+        }
     }
 }
+
