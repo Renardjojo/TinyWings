@@ -20,12 +20,7 @@ public enum EType
 public class Chunk : MonoBehaviour
 {
     private Vector2[] points;
-
-    private void Start()
-    {
-        Apply(EType.SINUSOIDE, EInflexionType.ASCENDANTE, new Rect(5, 5, 10, 10));
-    }
-
+    
     public void Apply(EType functionType, EInflexionType inflexionType, Rect dimension)
     {
         transform.GetChild(0).position = new Vector3(dimension.x, dimension.y, 0);
