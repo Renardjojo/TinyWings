@@ -7,13 +7,15 @@ using UnityEngine;
 public enum EInflexionType
 {
     ASCENDANTE,
-    DESCANDANTE
+    DESCANDANTE,
+    COUNT
 }
 
 [SerializeField]
 public enum EType
 {
-    SINUSOIDE
+    SINUSOIDE,
+    COUNT
 }
 
 [RequireComponent(typeof(EdgeCollider2D))]
