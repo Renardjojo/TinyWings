@@ -18,7 +18,7 @@ public enum EType
     COUNT
 }
 
-[RequireComponent(typeof(EdgeCollider2D))]
+[ExecuteInEditMode ,RequireComponent(typeof(EdgeCollider2D))]
 public class Chunk : MonoBehaviour
 {
     private Vector2[] points;
@@ -64,4 +64,10 @@ public class Chunk : MonoBehaviour
         
         GetComponent<EdgeCollider2D>().points = points;
     }
+
+  /*  void Update()
+    {
+        Apply(EType.SINUSOIDE, EInflexionType.DESCANDANTE,
+            new Rect(transform.position, gameObject.transform.localScale));
+    }*/
 }
