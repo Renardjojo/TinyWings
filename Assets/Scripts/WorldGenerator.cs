@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -12,64 +14,72 @@ public enum EGenerationType
 
 public class WorldGenerator : MonoBehaviour
 {
+    [SerializeField] private CinemachineVirtualCamera camera;
+    
     public GameObject chunkPrefab;
     
     public EGenerationType generationType;
-    private Chunk[] chunks; // queue
+    private List<Chunk> chunks; // queue
 
     [SerializeField]
-    private float maxHeight = 0.0f;
-    
-    [SerializeField]
-    private float minScale = 8.0f;
+    private Vector2 hScale = Vector2.one;
 
     [SerializeField]
-    private float maxScale = 16.0f;
+    private Vector2 vScale = Vector2.one;
 
+    public float cameraGenerationAnticipationFactor = 2f;
+    public float cameraDestructionAnticipationFactor = 2f;
+
+    void Awake()
+    {
+        chunks = new List<Chunk>();
+    }
 
     void Start()
     {
-        switch(generationType)
-        {
-            case EGenerationType.SINUSOIDE:
-                GenerateRandomChunks();
-                break;
-        }
+        GenerateRandomChunks();
     }
     
     private void GenerateRandomChunks()
     {
-        float offsetX = 0.0f;
-        float offsetY = 0.0f;
+        float offsetX = chunks.Count > 0 ? chunks.Last().m_dimension.xMax : 0f;
+        float offsetY = chunks.Count > 0 ? (chunks.Last().m_inflexionType == EInflexionType.DESCANDANTE ? chunks.Last().m_dimension.yMin : chunks.Last().m_dimension.yMax) : 0f;
         
-        for (int i = 0; i < 10; i++)
+        float height = Random.Range(vScale.x, vScale.y);
+        float width = Random.Range(hScale.x, hScale.y);
+
+        EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
+        EType fuctionType = (EType)Random.Range(0, (int)EType.COUNT);
+
+        if (inflexionType == EInflexionType.DESCANDANTE)
         {
-            float height = Random.Range(minScale, maxScale);
-            float width = Random.Range(minScale, maxScale);
+            offsetY -= height;
+        }
 
-            EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
-            EType fuctionType = (EType)Random.Range(0, (int)EType.COUNT);
+        Rect dimension = new Rect( offsetX, offsetY, width, height);
+        
+        GameObject chunkGO = Instantiate(chunkPrefab);
+        Chunk chunk = chunkGO.GetComponent<Chunk>();
 
-            if (inflexionType == EInflexionType.DESCANDANTE)
-            {
-                offsetY -= height;
-            }
+        Assert.IsNotNull(chunk, "chunk component not found");
 
-            Rect dimension = new Rect( offsetX, offsetY, width, height);
-            
-            if (inflexionType == EInflexionType.ASCENDANTE)
-            {
-                offsetY += height;
-            }
+        chunk.Apply(fuctionType, inflexionType, dimension);
+        chunks.Add(chunk);
+    }
 
-            offsetX += width;
-            
-            GameObject chunkGO = Instantiate(chunkPrefab);
-            Chunk chunk = chunkGO.GetComponent<Chunk>();
-
-            Assert.IsNotNull(chunk, "chunk component not found");
-
-            chunk.Apply(fuctionType, inflexionType, dimension);
+    void Update()
+    {
+        //Add chunk
+        while ( camera.transform.position.x + camera.m_Lens.OrthographicSize * cameraGenerationAnticipationFactor > chunks.Last().m_dimension.xMax)
+        {
+            GenerateRandomChunks();
+        }
+        
+        //Remove chunk
+        while (chunks.First().m_dimension.xMax < camera.transform.position.x - camera.m_Lens.OrthographicSize * cameraDestructionAnticipationFactor)
+        {
+            Destroy(chunks.First().gameObject);
+            chunks.Remove(chunks.First());
         }
     }
 }
