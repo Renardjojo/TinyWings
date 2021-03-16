@@ -445,12 +445,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a881a02925e48a4584e2686ea725bf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 1134749332}
   chunkPrefab: {fileID: 796401386517783156, guid: bc48f38c981478842b2c76c456fa303c,
     type: 3}
   generationType: 0
-  maxHeight: 5
   hScale: {x: 100, y: 200}
   vScale: {x: 20, y: 40}
+  cameraGenerationAnticipationFactor: 2
+  cameraDestructionAnticipationFactor: 2
 --- !u!4 &1384733462
 Transform:
   m_ObjectHideFlags: 0
