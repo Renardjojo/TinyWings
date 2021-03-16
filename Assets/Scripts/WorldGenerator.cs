@@ -17,8 +17,6 @@ public class WorldGenerator : MonoBehaviour
     public EGenerationType generationType;
     private Chunk[] chunks; // queue
 
-    
-
     [SerializeField]
     private float maxHeight = 0.0f;
 
@@ -36,7 +34,7 @@ public class WorldGenerator : MonoBehaviour
     {
         float offsetX = 0.0f;
         float offsetY = 0.0f;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 10; i++)
         {
             float height = Random.Range(2.0f, 8.0f);
             float width = Random.Range(2.0f, 8.0f);
@@ -44,21 +42,20 @@ public class WorldGenerator : MonoBehaviour
             EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
             EType fuctionType = (EType)Random.Range(0, (int)EType.COUNT);
 
-
-            Rect dimension = new Rect( offsetX, offsetY, width, height);
-
-            offsetX += width;
-
-            switch(inflexionType)
+            if (inflexionType == EInflexionType.DESCANDANTE)
             {
-                case EInflexionType.ASCENDANTE:
-                    offsetY += height;
-                    break;
-                case EInflexionType.DESCANDANTE:
-                    offsetY -= height;
-                    break;
+                offsetY -= height;
             }
 
+            Rect dimension = new Rect( offsetX, offsetY, width, height);
+            if (inflexionType == EInflexionType.ASCENDANTE)
+            {
+                offsetY += height;
+            }
+
+            
+            offsetX += width;
+            
             GameObject chunkGO = Instantiate(chunkPrefab);
             Chunk chunk = chunkGO.GetComponent<Chunk>();
 
