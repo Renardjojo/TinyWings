@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -15,62 +16,54 @@ public class WorldGenerator : MonoBehaviour
     public GameObject chunkPrefab;
     
     public EGenerationType generationType;
-    private Chunk[] chunks; // queue
+    private List<Chunk> chunks; // queue
 
-    [SerializeField]
-    private float maxHeight = 0.0f;
-    
     [SerializeField]
     private Vector2 hScale = Vector2.one;
 
     [SerializeField]
     private Vector2 vScale = Vector2.one;
 
-
+    void Awake()
+    {
+        chunks = new List<Chunk>();
+    }
+    
     void Start()
     {
-        switch(generationType)
+        for (int i = 0; i < 10; i++)
         {
-            case EGenerationType.SINUSOIDE:
-                GenerateRandomChunks();
-                break;
+            GenerateRandomChunks();
         }
     }
     
     private void GenerateRandomChunks()
     {
-        float offsetX = 0.0f;
-        float offsetY = 0.0f;
+        float offsetX = chunks.Count > 0 ? chunks.Last().m_dimension.xMax : 0f;
+        float offsetY = chunks.Count > 0 ? (chunks.Last().m_inflexionType == EInflexionType.DESCANDANTE ? chunks.Last().m_dimension.yMin : chunks.Last().m_dimension.yMax) : 0f;
         
-        for (int i = 0; i < 10; i++)
+        float height = Random.Range(vScale.x, vScale.y);
+        float width = Random.Range(hScale.x, hScale.y);
+
+        EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
+        EType fuctionType = (EType)Random.Range(0, (int)EType.COUNT);
+
+        if (inflexionType == EInflexionType.DESCANDANTE)
         {
-            float height = Random.Range(vScale.x, vScale.y);
-            float width = Random.Range(hScale.x, hScale.y);
-
-            EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
-            EType fuctionType = (EType)Random.Range(0, (int)EType.COUNT);
-
-            if (inflexionType == EInflexionType.DESCANDANTE)
-            {
-                offsetY -= height;
-            }
-
-            Rect dimension = new Rect( offsetX, offsetY, width, height);
-            
-            if (inflexionType == EInflexionType.ASCENDANTE)
-            {
-                offsetY += height;
-            }
-
-            offsetX += width;
-            
-            GameObject chunkGO = Instantiate(chunkPrefab);
-            Chunk chunk = chunkGO.GetComponent<Chunk>();
-
-            Assert.IsNotNull(chunk, "chunk component not found");
-
-            chunk.Apply(fuctionType, inflexionType, dimension);
+            offsetY -= height;
         }
+
+        Rect dimension = new Rect( offsetX, offsetY, width, height);
+        
+        Debug.Log(dimension);
+        
+        GameObject chunkGO = Instantiate(chunkPrefab);
+        Chunk chunk = chunkGO.GetComponent<Chunk>();
+
+        Assert.IsNotNull(chunk, "chunk component not found");
+
+        chunk.Apply(fuctionType, inflexionType, dimension);
+        chunks.Add(chunk);
     }
 }
 

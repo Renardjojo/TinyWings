@@ -449,8 +449,8 @@ MonoBehaviour:
     type: 3}
   generationType: 0
   maxHeight: 5
-  hScale: {x: 2, y: 10}
-  vScale: {x: 1, y: 2}
+  hScale: {x: 100, y: 200}
+  vScale: {x: 20, y: 40}
 --- !u!4 &1384733462
 Transform:
   m_ObjectHideFlags: 0

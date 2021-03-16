@@ -23,23 +23,23 @@ public class Chunk : MonoBehaviour
 {
     private Vector2[] points;
     [SerializeField] private Material m_Material;
-    private EType m_functionType;
-    private EInflexionType m_inflexionType;
-    Rect m_dimension;
+    public EType m_functionType;
+    public EInflexionType m_inflexionType;
+    public Rect m_dimension;
 
     public void Awake()
     {
         m_Material = transform.GetChild(0).GetComponent<MeshRenderer>().material;
     }
     
-    public void Apply(EType functionType, EInflexionType inflexionType, Rect dimension)
+    public void Apply(EType functionType, EInflexionType inflexionType, Rect dim)
     {
         m_functionType = functionType;
         m_inflexionType = inflexionType;
-        m_dimension = dimension;
+        m_dimension = dim;
         
-        transform.GetChild(0).position = new Vector3(dimension.x + dimension.width / 2, dimension.y + dimension.height / 2, 0);
-        transform.GetChild(0).localScale = new Vector3(dimension.width, dimension.height, 0);
+        transform.GetChild(0).position = new Vector3(m_dimension.x + m_dimension.width / 2, m_dimension.y + m_dimension.height / 2, 0);
+        transform.GetChild(0).localScale = new Vector3(m_dimension.width, m_dimension.height, 0);
         
         switch (inflexionType)
         {
@@ -49,7 +49,7 @@ public class Chunk : MonoBehaviour
                 {
                     case EType.SINUSOIDE:
                         
-                        points = FunctionGenerator.AcsSinusoide(dimension);
+                        points = FunctionGenerator.AcsSinusoide(m_dimension);
                         
                         break;
                     default:
@@ -63,7 +63,7 @@ public class Chunk : MonoBehaviour
                 {
                     case EType.SINUSOIDE:
                         
-                        points = FunctionGenerator.DescSinusoide(dimension);
+                        points = FunctionGenerator.DescSinusoide(m_dimension);
                         
                         break;
                     default:
