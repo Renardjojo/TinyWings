@@ -11,11 +11,22 @@ public class PlayerControler : MonoBehaviour
     private BoxCollider2D box;
     public float raycastVDistance = 1f;
     
+    //UI
+    [SerializeField] private TextFloatLink H;
+    [SerializeField] private TextFloatLink MH;
+    [SerializeField] private TextFloatLink V;
+    [SerializeField] private TextFloatLink MV;
+
+    private float h = 0, mh = 0, v = 0, mv = 0;
+
     // Start is called before the first frame update
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         box = GetComponent<BoxCollider2D>();
+
+        mh = PlayerPrefs.GetFloat("MH", 0);
+        mv = PlayerPrefs.GetFloat("MH", 0);
     }
 
     bool IsGrounded()
@@ -25,6 +36,26 @@ public class PlayerControler : MonoBehaviour
     
     void FixedUpdate()
     {
+        h = transform.position.x;
+        v = transform.position.y;
+
+        if (mh < h)
+        {
+            mh = h;
+            MH.SetTextWithRoundFloat(mh);
+            PlayerPrefs.SetFloat("MH", mh);
+        }
+        
+        if (mv < v)
+        {
+            mv = v;
+            MV.SetTextWithRoundFloat(mv);
+            PlayerPrefs.SetFloat("MV", mv);
+        }
+        
+        H.SetTextWithRoundFloat(h);
+        V.SetTextWithRoundFloat(v);
+
         if (Input.GetKey(KeyCode.Space) && IsGrounded())
         {
             Debug.DrawLine(transform.position - transform.up * (box.size.y / 2 + 0.001f), transform.position - transform.up * (box.size.y / 2 + 0.001f) + -transform.up * raycastVDistance, Color.green);
@@ -34,5 +65,10 @@ public class PlayerControler : MonoBehaviour
         {
             Debug.DrawLine(transform.position - transform.up * (box.size.y / 2 + 0.001f), transform.position - transform.up * (box.size.y / 2 + 0.001f) + -transform.up * raycastVDistance, Color.red);
         }
+    }
+
+    void OnDestroy()
+    {
+        PlayerPrefs.Save();
     }
 }
