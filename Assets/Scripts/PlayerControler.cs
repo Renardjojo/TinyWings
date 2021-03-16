@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 using UnityEngine.PlayerLoop;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
@@ -10,6 +11,9 @@ public class PlayerControler : MonoBehaviour
     private Rigidbody2D rigid;
     private BoxCollider2D box;
     public float raycastVDistance = 1f;
+
+    [SerializeField]
+    private float minZCameraPos = -15.0f;
     
     //UI
     [SerializeField] private TextFloatLink H;
@@ -18,6 +22,11 @@ public class PlayerControler : MonoBehaviour
     [SerializeField] private TextFloatLink MV;
 
     private float h = 0, mh = 0, v = 0, mv = 0;
+
+    [SerializeField]
+    private CinemachineVirtualCamera vcam;
+    
+    public float velocityZoomFactor = 0.5f;
 
     // Start is called before the first frame update
     void Awake()
@@ -29,11 +38,26 @@ public class PlayerControler : MonoBehaviour
         mv = PlayerPrefs.GetFloat("MH", 0);
     }
 
+    void Start()
+    {
+        minZCameraPos = vcam.m_Lens.OrthographicSize;
+    }
+
     bool IsGrounded()
     {
         return Physics2D.Raycast(transform.position - transform.up * (box.size.y / 2 + 0.001f), -transform.up, raycastVDistance);
     }
-    
+
+    void Update()
+    {
+        Zoom();
+    }
+
+    private void Zoom()
+    {
+        vcam.m_Lens.OrthographicSize = Mathf.Lerp(vcam.m_Lens.OrthographicSize, minZCameraPos + rigid.velocity.magnitude * velocityZoomFactor, Time.deltaTime);
+    }
+
     void FixedUpdate()
     {
         h = transform.position.x;
