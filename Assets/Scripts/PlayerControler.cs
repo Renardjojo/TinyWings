@@ -20,9 +20,6 @@ public class PlayerControler : MonoBehaviour
 
 
     public float velocityZoomFactor = 0.5f;
-    
-
-    CinemachineBrain cam;
 
     // Start is called before the first frame update
     void Awake()
