@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 288611392}
   - component: {fileID: 288611391}
   m_Layer: 5
-  m_Name: Hvalue
+  m_Name: Svalue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -581,7 +581,7 @@ GameObject:
   - component: {fileID: 796186903}
   - component: {fileID: 796186902}
   m_Layer: 5
-  m_Name: MHvalue
+  m_Name: MSvalue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -809,7 +809,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: 0
   m_CullingMask:
@@ -834,7 +834,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846186100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.9402816, y: 9.062711, z: -10}
+  m_LocalPosition: {x: 1.1813982, y: 9.058329, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -852,7 +852,7 @@ GameObject:
   - component: {fileID: 928849214}
   - component: {fileID: 928849213}
   m_Layer: 5
-  m_Name: Jump distance
+  m_Name: speed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -909,7 +909,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Jump distance : '
+  m_Text: 'Speed : '
 --- !u!222 &928849214
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -995,7 +995,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1134749330}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.9402816, y: 9.062711, z: -10}
+  m_LocalPosition: {x: 1.1813982, y: 9.058329, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 778867337}
@@ -1155,7 +1155,7 @@ GameObject:
   - component: {fileID: 1382600492}
   - component: {fileID: 1382600491}
   m_Layer: 5
-  m_Name: Max jump distance
+  m_Name: Max speed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1212,7 +1212,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Max jump distance : '
+  m_Text: 'Max speed : '
 --- !u!222 &1382600492
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1283,7 +1283,7 @@ GameObject:
   - component: {fileID: 1523171145}
   - component: {fileID: 1523171146}
   m_Layer: 5
-  m_Name: MH
+  m_Name: MS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1424,7 +1424,7 @@ GameObject:
   - component: {fileID: 1890658654}
   - component: {fileID: 1890658655}
   m_Layer: 5
-  m_Name: H
+  m_Name: S
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1659,6 +1659,11 @@ PrefabInstance:
       objectReference: {fileID: 288611391}
     - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
         type: 3}
+      propertyPath: S
+      value: 
+      objectReference: {fileID: 288611391}
+    - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
+        type: 3}
       propertyPath: V
       value: 
       objectReference: {fileID: 51698733}
@@ -1669,13 +1674,28 @@ PrefabInstance:
       objectReference: {fileID: 796186902}
     - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
         type: 3}
+      propertyPath: MS
+      value: 
+      objectReference: {fileID: 796186902}
+    - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
+        type: 3}
       propertyPath: MV
       value: 
       objectReference: {fileID: 597568808}
     - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
         type: 3}
+      propertyPath: vcam
+      value: 
+      objectReference: {fileID: 1134749332}
+    - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
+        type: 3}
       propertyPath: thrust
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
+        type: 3}
+      propertyPath: velocityZoomFactor
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc681833aef4411438c1cc26d9ab392f, type: 3}

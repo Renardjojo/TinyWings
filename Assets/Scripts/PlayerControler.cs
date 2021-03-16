@@ -16,12 +16,12 @@ public class PlayerControler : MonoBehaviour
     private float minZCameraPos = -15.0f;
     
     //UI
-    [SerializeField] private TextFloatLink H;
-    [SerializeField] private TextFloatLink MH;
+    [SerializeField] private TextFloatLink S;
+    [SerializeField] private TextFloatLink MS;
     [SerializeField] private TextFloatLink V;
     [SerializeField] private TextFloatLink MV;
 
-    private float h = 0, mh = 0, v = 0, mv = 0;
+    private float s = 0, ms = 0, v = 0, mv = 0;
 
     [SerializeField]
     private CinemachineVirtualCamera vcam;
@@ -34,8 +34,8 @@ public class PlayerControler : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         box = GetComponent<BoxCollider2D>();
 
-        mh = PlayerPrefs.GetFloat("MH", 0);
-        mv = PlayerPrefs.GetFloat("MH", 0);
+        ms = PlayerPrefs.GetFloat("MS", 0);
+        mv = PlayerPrefs.GetFloat("MV", 0);
     }
 
     void Start()
@@ -55,19 +55,22 @@ public class PlayerControler : MonoBehaviour
 
     private void Zoom()
     {
-        vcam.m_Lens.OrthographicSize = Mathf.Lerp(vcam.m_Lens.OrthographicSize, minZCameraPos + rigid.velocity.magnitude * velocityZoomFactor, Time.deltaTime);
+        vcam.m_Lens.OrthographicSize = Mathf.Lerp(vcam.m_Lens.OrthographicSize, minZCameraPos + s * velocityZoomFactor, Time.deltaTime);
     }
 
     void FixedUpdate()
     {
-        h = transform.position.x;
+        s = rigid.velocity.magnitude;
         v = transform.position.y;
-
-        if (mh < h)
+        
+        S.SetTextWithRoundFloat(s);
+        V.SetTextWithRoundFloat(v);
+        
+        if (ms < s)
         {
-            mh = h;
-            MH.SetTextWithRoundFloat(mh);
-            PlayerPrefs.SetFloat("MH", mh);
+            ms = s;
+            MS.SetTextWithRoundFloat(ms);
+            PlayerPrefs.SetFloat("MS", ms);
         }
         
         if (mv < v)
@@ -77,9 +80,6 @@ public class PlayerControler : MonoBehaviour
             PlayerPrefs.SetFloat("MV", mv);
         }
         
-        H.SetTextWithRoundFloat(h);
-        V.SetTextWithRoundFloat(v);
-
         if (Input.GetKey(KeyCode.Space) && IsGrounded())
         {
             Debug.DrawLine(transform.position - transform.up * (box.size.y / 2 + 0.001f), transform.position - transform.up * (box.size.y / 2 + 0.001f) + -transform.up * raycastVDistance, Color.green);
