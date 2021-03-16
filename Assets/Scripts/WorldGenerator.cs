@@ -21,10 +21,10 @@ public class WorldGenerator : MonoBehaviour
     private float maxHeight = 0.0f;
     
     [SerializeField]
-    private float minScale = 8.0f;
+    private Vector2 hScale = Vector2.one;
 
     [SerializeField]
-    private float maxScale = 16.0f;
+    private Vector2 vScale = Vector2.one;
 
 
     void Start()
@@ -44,8 +44,8 @@ public class WorldGenerator : MonoBehaviour
         
         for (int i = 0; i < 10; i++)
         {
-            float height = Random.Range(minScale, maxScale);
-            float width = Random.Range(minScale, maxScale);
+            float height = Random.Range(vScale.x, vScale.y);
+            float width = Random.Range(hScale.x, hScale.y);
 
             EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
             EType fuctionType = (EType)Random.Range(0, (int)EType.COUNT);
