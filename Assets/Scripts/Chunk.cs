@@ -2,14 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-[SerializeField]
-public enum EInflexionType
-{
-    ASCENDANTE,
-    DESCANDANTE,
-    COUNT
-}
+using Random = UnityEngine.Random;
 
 [SerializeField]
 public enum EType
@@ -26,6 +19,7 @@ public class Chunk : MonoBehaviour
     public EType m_functionType;
     public EInflexionType m_inflexionType;
     public Rect m_dimension;
+    public int m_pow; //TODO: to remove, debug for sin
 
     public void Awake()
     {
@@ -49,7 +43,7 @@ public class Chunk : MonoBehaviour
                 {
                     case EType.SINUSOIDE:
                         
-                        points = FunctionGenerator.AcsSinusoide(m_dimension);
+                        points = FunctionGenerator.AcsSinusoide(m_dimension, Random.Range(1, 10));
                         
                         break;
                     default:
@@ -63,7 +57,7 @@ public class Chunk : MonoBehaviour
                 {
                     case EType.SINUSOIDE:
                         
-                        points = FunctionGenerator.DescSinusoide(m_dimension);
+                        points = FunctionGenerator.DescSinusoide(m_dimension, Random.Range(1, 10));
                         
                         break;
                     default:

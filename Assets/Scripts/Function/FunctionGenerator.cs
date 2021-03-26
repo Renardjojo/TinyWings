@@ -4,12 +4,9 @@ using UnityEngine;
 
 public static class FunctionGenerator
 {
-    public static Vector2[] DescSinusoide(Rect dim)
+    public static Vector2[] DescSinusoide(Rect dim, int pow)
     {
-        float amplitude = dim.height / 2;
-        float vOffSet = amplitude + dim.yMin;
-        float pulsation = Mathf.PI / dim.width;
-        float phase = Mathf.PI / 2 - dim.xMin * pulsation;
+        Sinusoide sinusois = new Sinusoide(dim, EInflexionType.DESCANDANTE, pow);
         
         Vector2[] rst = new Vector2[50];
 
@@ -18,18 +15,15 @@ public static class FunctionGenerator
         for (int i = 0; i < rst.Length; i++)
         {
             float x = dim.xMin + i * interval;
-            rst[i] = new Vector2(x, vOffSet + amplitude * Mathf.Sin(pulsation * x + phase));
+            rst[i] = new Vector2(x, sinusois.image(x));
         }
 
         return rst;
     }
     
-    public static Vector2[] AcsSinusoide(Rect dim)
+    public static Vector2[] AcsSinusoide(Rect dim, int pow)
     {
-        float amplitude = dim.height / 2;
-        float vOffSet = amplitude + dim.yMin;
-        float pulsation = Mathf.PI / dim.width;
-        float phase = -Mathf.PI / 2 - dim.xMin * pulsation;
+        Sinusoide sinusois = new Sinusoide(dim, EInflexionType.ASCENDANTE, pow);
         
         Vector2[] rst = new Vector2[50];
 
@@ -38,7 +32,7 @@ public static class FunctionGenerator
         for (int i = 0; i < rst.Length; i++)
         {
             float x = dim.xMin + i * interval;
-            rst[i] = new Vector2(x, vOffSet + amplitude * Mathf.Sin(pulsation * x + phase));
+            rst[i] = new Vector2(x, sinusois.image(x));
         }
 
         return rst;
