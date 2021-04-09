@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 public enum EType
 {
     SINUSOIDE,
+    POLYNOME,
     COUNT
 }
 
@@ -46,6 +47,11 @@ public class Chunk : MonoBehaviour
                         points = FunctionGenerator.AcsSinusoide(m_dimension, Random.Range(1, 10));
                         
                         break;
+                    case EType.POLYNOME:
+                        
+                        points = FunctionGenerator.AcsPolynone(m_dimension);
+                        
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -58,6 +64,11 @@ public class Chunk : MonoBehaviour
                     case EType.SINUSOIDE:
                         
                         points = FunctionGenerator.DescSinusoide(m_dimension, Random.Range(1, 10));
+                        
+                        break;
+                    case EType.POLYNOME:
+                        
+                        points = FunctionGenerator.DescPolynome(m_dimension);
                         
                         break;
                     default:
@@ -75,42 +86,8 @@ public class Chunk : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch (m_inflexionType)
-        {
-            case EInflexionType.ASCENDANTE:
-
-                switch (m_functionType)
-                {
-                    case EType.SINUSOIDE:
-                        
-                        m_Material.SetVector("_Dim", new Vector4(m_dimension.xMin, m_dimension.yMin, m_dimension.xMax, m_dimension.yMax));
-                        m_Material.SetFloat("_isDesc", 0);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-                
-                break;
-            case EInflexionType.DESCANDANTE:
-                
-                switch (m_functionType)
-                {
-                    case EType.SINUSOIDE:
-                        
-                        m_Material.SetVector("_Dim", new Vector4(m_dimension.xMin, m_dimension.yMin, m_dimension.xMax, m_dimension.yMax));
-                        m_Material.SetFloat("_isDesc", 1);
-                        
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-                
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+        m_Material.SetVector("_Dim", new Vector4(m_dimension.xMin, m_dimension.yMin, m_dimension.xMax, m_dimension.yMax));
         
-        
-       
+        m_Material.SetFloat("_isDesc", EInflexionType.DESCANDANTE == m_inflexionType ? 1 : 0);
     }
 }

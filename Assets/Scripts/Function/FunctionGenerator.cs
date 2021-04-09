@@ -37,5 +37,39 @@ public static class FunctionGenerator
 
         return rst;
     }
+    
+    public static Vector2[] DescPolynome(Rect dim)
+    {
+        Polynome polynome = new Polynome(dim, EInflexionType.DESCANDANTE);
+        
+        Vector2[] rst = new Vector2[50];
+
+        float interval = dim.width / (rst.Length - 1);
+        
+        for (int i = 0; i < rst.Length; i++)
+        {
+            float x = dim.xMin + i * interval;
+            rst[i] = new Vector2(x, polynome.image(x));
+        }
+
+        return rst;
+    }
+    
+    public static Vector2[] AcsPolynone(Rect dim)
+    {
+        Polynome polynome = new Polynome(dim, EInflexionType.ASCENDANTE);
+        
+        Vector2[] rst = new Vector2[50];
+
+        float interval = dim.width / (rst.Length - 1);
+        
+        for (int i = 0; i < rst.Length; i++)
+        {
+            float x = dim.xMin + i * interval;
+            rst[i] = new Vector2(x, polynome.image(x));
+        }
+
+        return rst;
+    }
 }
 

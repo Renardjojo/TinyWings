@@ -37,9 +37,43 @@ public class Sinusoide : Function
     {
         return Vector2.one;
     }
-    
+
+    public int Cbin(int n, int k)
+    {
+        int res = 1;
+        for (int i = n - k + 1; i <= n; ++i)
+            res *= i;
+        for (int i = 2; i <= k; ++i)
+            res /= i;
+        return res;
+    }
+
     public override float derivative(float x, int n)
     {
-        return 0.0f;
+        float sum = 0f;
+        float coef = 0f;
+
+        if (m_pow % 2 == 0)
+        {
+            for (int k = 0; k < (m_pow - 2) / 2; ++k)
+            {
+                sum = Mathf.Pow((-1), k) * Cbin(m_pow, k) * Mathf.Pow((n - 2 * k), n) * Mathf.Cos((n - 2) * x) +
+                      n * Mathf.PI / 2;
+            }
+
+            coef = (-1) ^ (m_pow / 2) / 2 ^ (m_pow - 1);
+        }
+        else
+        {
+            for (int k = 0; k < (m_pow - 1) / 2; ++k)
+            {
+                sum = Mathf.Pow((-1), k) * Cbin(m_pow, k) * Mathf.Pow((n - 2 * k), n) * Mathf.Sin((n - 2) * x) +
+                      n * Mathf.PI / 2;
+            }
+
+            coef = (-1) ^ ((m_pow - 1) / 2) / 2 ^ (m_pow - 1);
+        }
+
+        return coef * sum;
     }
 }

@@ -5,20 +5,12 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-[SerializeField]
-public enum EGenerationType
-{
-    SINUSOIDE,
-    RANDOM
-}
-
 public class WorldGenerator : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera camera;
     
     public GameObject chunkPrefab;
     
-    public EGenerationType generationType;
     private List<Chunk> chunks; // queue
 
     [SerializeField]
