@@ -16,6 +16,7 @@ public class PlayerControler : MonoBehaviour
     private float minZCameraPos = -15.0f;
     
     //UI
+    [SerializeField] private TextFloatLink FPS;
     [SerializeField] private TextFloatLink S;
     [SerializeField] private TextFloatLink MS;
     [SerializeField] private TextFloatLink V;
@@ -28,6 +29,23 @@ public class PlayerControler : MonoBehaviour
     
     public float velocityZoomFactor = 0.5f;
 
+    /* Public Variables */
+    public float FPSDisplayfrequency = 0.25f;
+    
+    private IEnumerator FPSCorroutine() {
+        for(;;){
+            // Capture frame-per-second
+            int lastFrameCount = Time.frameCount;
+            float lastTime = Time.realtimeSinceStartup;
+            yield return new WaitForSeconds(FPSDisplayfrequency);
+            float timeSpan = Time.realtimeSinceStartup - lastTime;
+            int frameCount = Time.frameCount - lastFrameCount;
+ 
+            // Display it
+            FPS.SetTextWithRoundFloat(Mathf.RoundToInt(frameCount / timeSpan));
+        }
+    }
+    
     // Start is called before the first frame update
     void Awake()
     {
@@ -40,6 +58,7 @@ public class PlayerControler : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(FPSCorroutine());
         minZCameraPos = vcam.m_Lens.OrthographicSize;
     }
 
@@ -80,7 +99,7 @@ public class PlayerControler : MonoBehaviour
             PlayerPrefs.SetFloat("MV", mv);
         }
         
-        if (Input.GetKey(KeyCode.Space) && IsGrounded())
+        if ((Input.touchCount > 0 || Input.GetKey(KeyCode.Space)) && IsGrounded())
         {
             Debug.DrawLine(transform.position - transform.up * (box.size.y / 2 + 0.001f), transform.position - transform.up * (box.size.y / 2 + 0.001f) + -transform.up * raycastVDistance, Color.green);
             rigid.AddForce(transform.right * thrust, ForceMode2D.Force);
