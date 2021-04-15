@@ -834,7 +834,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846186100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1813982, y: 9.058329, z: -10}
+  m_LocalPosition: {x: 1.1847582, y: 9.058329, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -995,7 +995,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1134749330}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1813982, y: 9.058329, z: -10}
+  m_LocalPosition: {x: 1.1847582, y: 9.058329, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 778867337}
@@ -1253,7 +1253,6 @@ MonoBehaviour:
   camera: {fileID: 1134749332}
   chunkPrefab: {fileID: 796401386517783156, guid: bc48f38c981478842b2c76c456fa303c,
     type: 3}
-  generationType: 0
   hScale: {x: 100, y: 200}
   vScale: {x: 20, y: 40}
   cameraGenerationAnticipationFactor: 2
@@ -1651,6 +1650,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2916302116989156587, guid: fc681833aef4411438c1cc26d9ab392f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
         type: 3}

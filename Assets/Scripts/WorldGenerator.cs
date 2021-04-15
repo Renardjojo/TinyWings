@@ -5,21 +5,12 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-[SerializeField]
-public enum EGenerationType
-{
-    SINUSOIDE,
-    CIRCLE,
-    RANDOM
-}
-
 public class WorldGenerator : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera camera;
     
     public GameObject chunkPrefab;
     
-    public EGenerationType generationType;
     private List<Chunk> chunks; // queue
 
     [SerializeField]
@@ -49,11 +40,8 @@ public class WorldGenerator : MonoBehaviour
         float height = Random.Range(vScale.x, vScale.y);
         float width = Random.Range(hScale.x, hScale.y);
 
-        //EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
-        EInflexionType inflexionType = EInflexionType.DESCANDANTE;
-        //EType fuctionType = (EType)Random.Range(0, (int)EType.COUNT);
-        //temp
-        EType fuctionType = EType.CIRCLE;
+        EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
+        EType fuctionType = (EType)Random.Range(0, (int)EType.COUNT);
 
         if (inflexionType == EInflexionType.DESCANDANTE)
         {
