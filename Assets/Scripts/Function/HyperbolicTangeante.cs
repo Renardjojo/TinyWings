@@ -37,12 +37,7 @@ public class HyperbolicTangeante : Function
         float exp =  Mathf.Exp(m_alpha * m_k * (x - m_b));
         return m_a + m_kprime * (1 - exp) / (1 + exp);
     }
-    
-    public override Vector2 tangeante(float x)
-    {
-        return Vector2.one;
-    }
-    
+
     public override Vector2 normal (float x)
     {
         return Vector2.one;
