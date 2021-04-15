@@ -10,6 +10,7 @@ public enum EType
     SINUSOIDE,
     POLYNOME,
     HYPBERBOLIC_TAN,
+    ELLIPTIC,
     COUNT
 }
 
@@ -51,6 +52,11 @@ public class Chunk : MonoBehaviour
             case EType.HYPBERBOLIC_TAN:
                 m_funct = new HyperbolicTangeante(m_dimension, inflexionType);
                 break;
+
+            case EType.ELLIPTIC:
+                m_funct = new Elliptical(m_dimension, inflexionType);
+                break;
+
             default:
                 throw new ArgumentOutOfRangeException();
         }
