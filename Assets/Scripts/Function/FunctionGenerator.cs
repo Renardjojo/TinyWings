@@ -71,5 +71,41 @@ public static class FunctionGenerator
 
         return rst;
     }
+    
+    public static Vector2[] DescHTan(Rect dim)
+    {
+        HyperbolicTangeante funct = new HyperbolicTangeante(dim, EInflexionType.DESCANDANTE);
+        
+        Vector2[] rst = new Vector2[50];
+
+        float interval = dim.width / (rst.Length - 1);
+        
+        for (int i = 0; i < rst.Length; i++)
+        {
+            float x = dim.xMin + i * interval;
+            rst[i] = new Vector2(x, funct.image(x));
+        }
+
+        return rst;
+    }
+    
+    public static Vector2[] AcsHTan(Rect dim)
+    {
+        HyperbolicTangeante funct = new HyperbolicTangeante(dim, EInflexionType.ASCENDANTE);
+        
+        Vector2[] rst = new Vector2[50];
+
+        float interval = dim.width / (rst.Length - 1);
+        
+        for (int i = 0; i < rst.Length; i++)
+        {
+            float x = dim.xMin + i * interval;
+            rst[i] = new Vector2(x, funct.image(x));
+        }
+
+        return rst;
+    }
 }
+
+
 

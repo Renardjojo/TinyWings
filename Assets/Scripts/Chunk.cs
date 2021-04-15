@@ -9,6 +9,7 @@ public enum EType
 {
     SINUSOIDE,
     POLYNOME,
+    HYPBERBOLIC_TAN,
     COUNT
 }
 
@@ -43,14 +44,14 @@ public class Chunk : MonoBehaviour
                 switch (functionType)
                 {
                     case EType.SINUSOIDE:
-                        
                         points = FunctionGenerator.AcsSinusoide(m_dimension, Random.Range(1, 10));
-                        
                         break;
                     case EType.POLYNOME:
-                        
                         points = FunctionGenerator.AcsPolynone(m_dimension);
-                        
+                        break;
+                    
+                    case EType.HYPBERBOLIC_TAN:
+                        points = FunctionGenerator.AcsHTan(m_dimension);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -67,9 +68,11 @@ public class Chunk : MonoBehaviour
                         
                         break;
                     case EType.POLYNOME:
-                        
                         points = FunctionGenerator.DescPolynome(m_dimension);
-                        
+                        break;
+                    
+                    case EType.HYPBERBOLIC_TAN:
+                        points = FunctionGenerator.DescHTan(m_dimension);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
