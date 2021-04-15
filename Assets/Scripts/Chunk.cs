@@ -22,6 +22,7 @@ public class Chunk : MonoBehaviour
     public EInflexionType m_inflexionType;
     public Rect m_dimension;
     public int m_pow; //TODO: to remove, debug for sin
+    private Function m_funct;
 
     public void Awake()
     {
@@ -37,52 +38,34 @@ public class Chunk : MonoBehaviour
         transform.GetChild(0).position = new Vector3(m_dimension.x + m_dimension.width / 2, m_dimension.y + m_dimension.height / 2, 0);
         transform.GetChild(0).localScale = new Vector3(m_dimension.width, m_dimension.height, 0);
         
-        switch (inflexionType)
+        //Create function and compute constantes
+        switch (functionType)
         {
-            case EInflexionType.ASCENDANTE:
-
-                switch (functionType)
-                {
-                    case EType.SINUSOIDE:
-                        points = FunctionGenerator.AcsSinusoide(m_dimension, Random.Range(1, 10));
-                        break;
-                    case EType.POLYNOME:
-                        points = FunctionGenerator.AcsPolynone(m_dimension);
-                        break;
-                    
-                    case EType.HYPBERBOLIC_TAN:
-                        points = FunctionGenerator.AcsHTan(m_dimension);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-                
+            case EType.SINUSOIDE:
+                m_funct = new Sinusoide(m_dimension, inflexionType, Random.Range(1, 10));
                 break;
-            case EInflexionType.DESCANDANTE:
-                
-                switch (functionType)
-                {
-                    case EType.SINUSOIDE:
-                        
-                        points = FunctionGenerator.DescSinusoide(m_dimension, Random.Range(1, 10));
-                        
-                        break;
-                    case EType.POLYNOME:
-                        points = FunctionGenerator.DescPolynome(m_dimension);
-                        break;
-                    
-                    case EType.HYPBERBOLIC_TAN:
-                        points = FunctionGenerator.DescHTan(m_dimension);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-                
+            case EType.POLYNOME:
+                m_funct = new Polynome(m_dimension, inflexionType);
+                break;
+            
+            case EType.HYPBERBOLIC_TAN:
+                m_funct = new HyperbolicTangeante(m_dimension, inflexionType);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
         
+        //Generate points :
+        Vector2[] points = new Vector2[50];
+
+        float interval = dim.width / (points.Length - 1);
+
+        for (int i = 0; i < points.Length; i++)
+        {
+            float x = dim.xMin + i * interval;
+            points[i] = new Vector2(x, m_funct.image(x));
+        }
+
         GetComponent<EdgeCollider2D>().points = points;
     }
 
