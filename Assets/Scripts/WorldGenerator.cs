@@ -9,6 +9,7 @@ using UnityEngine.Assertions;
 public enum EGenerationType
 {
     SINUSOIDE,
+    CIRCLE,
     RANDOM
 }
 
@@ -48,8 +49,11 @@ public class WorldGenerator : MonoBehaviour
         float height = Random.Range(vScale.x, vScale.y);
         float width = Random.Range(hScale.x, hScale.y);
 
-        EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
-        EType fuctionType = (EType)Random.Range(0, (int)EType.COUNT);
+        //EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
+        EInflexionType inflexionType = EInflexionType.DESCANDANTE;
+        //EType fuctionType = (EType)Random.Range(0, (int)EType.COUNT);
+        //temp
+        EType fuctionType = EType.CIRCLE;
 
         if (inflexionType == EInflexionType.DESCANDANTE)
         {

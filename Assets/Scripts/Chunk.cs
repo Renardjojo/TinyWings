@@ -15,6 +15,7 @@ public enum EInflexionType
 public enum EType
 {
     SINUSOIDE,
+    CIRCLE,
     COUNT
 }
 
@@ -52,6 +53,11 @@ public class Chunk : MonoBehaviour
                         points = FunctionGenerator.AcsSinusoide(m_dimension);
                         
                         break;
+                    case EType.CIRCLE:
+
+                        //points = FunctionGenerator.AscElliptique(m_dimension);
+
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -65,6 +71,12 @@ public class Chunk : MonoBehaviour
                         
                         points = FunctionGenerator.DescSinusoide(m_dimension);
                         
+                        break;
+
+                    case EType.CIRCLE:
+
+                        points = FunctionGenerator.DescElliptique(m_dimension);
+
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -106,6 +118,13 @@ public class Chunk : MonoBehaviour
                         m_Material.SetVector("_Dim", new Vector4(m_dimension.xMin, m_dimension.yMin, m_dimension.xMax, m_dimension.yMax));
                         m_Material.SetFloat("_isDesc", 1);
                         
+                        break;
+
+                    case EType.CIRCLE:
+
+                        m_Material.SetVector("_Dim", new Vector4(m_dimension.xMin, m_dimension.yMin, m_dimension.xMax, m_dimension.yMax));
+                        m_Material.SetFloat("_isDesc", 1);
+
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
