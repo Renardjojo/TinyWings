@@ -9,6 +9,7 @@ public enum EType
 {
     SINUSOIDE,
     POLYNOME,
+    ELLIPTICAL,
     COUNT
 }
 
@@ -29,8 +30,8 @@ public class Chunk : MonoBehaviour
     
     public void Apply(EType functionType, EInflexionType inflexionType, Rect dim)
     {
+        functionType = EType.ELLIPTICAL;
         m_functionType = functionType;
-        m_inflexionType = inflexionType;
         m_dimension = dim;
         
         transform.GetChild(0).position = new Vector3(m_dimension.x + m_dimension.width / 2, m_dimension.y + m_dimension.height / 2, 0);
@@ -52,6 +53,12 @@ public class Chunk : MonoBehaviour
                         points = FunctionGenerator.AcsPolynone(m_dimension);
                         
                         break;
+
+                    case EType.ELLIPTICAL:
+
+                        points = FunctionGenerator.AscElliptique(m_dimension);
+
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -70,6 +77,12 @@ public class Chunk : MonoBehaviour
                         
                         points = FunctionGenerator.DescPolynome(m_dimension);
                         
+                        break;
+
+                    case EType.ELLIPTICAL:
+
+                        points = FunctionGenerator.DescElliptique(m_dimension);
+
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

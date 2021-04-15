@@ -66,31 +66,6 @@
                 return smoothstep(pt.y - transitionHalfWidth, pt.y + transitionHalfWidth, vOffSet + amplitude * sin(pulsation * pt.x + phase));
             }
 
-            float IsPtInsideFunction2(float2 pt, float transitionHalfWidth = .005)
-            {
-                float   xMin = _Dim.x,
-                    yMin = _Dim.y,
-                    xMax = _Dim.z,
-                    yMax = _Dim.w;
-
-                float width = xMax - xMin, height = yMax - yMin;
-
-                float vOffSet = yMax - yMin;
-
-                float x = 0;
-                
-                if (pt.x < (xMax - xMin) / 2)
-                {
-                    x = yMin + vOffSet * sqrt(1 - pow((sqrt(3) * (pt.x - xMin)) / (xMax - xMin), 2));
-                }
-                else
-                {
-                    x = yMax - vOffSet * sqrt(1 - pow((sqrt(3) * (pt.x - xMax)) / (xMax - xMin), 2));
-                }
-
-                return smoothstep(pt.y - transitionHalfWidth, pt.y + transitionHalfWidth, x);
-            }
-            
             float2 localToGlobalUVInRect(float2 uv)
             {
                 float2 pt = uv;
@@ -105,7 +80,7 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-                return _Color * IsPtInsideFunction2(localToGlobalUVInRect(i.uv));
+                return _Color * IsPtInsideFunction(localToGlobalUVInRect(i.uv));
             }
             ENDCG
         }

@@ -74,20 +74,16 @@ public static class FunctionGenerator
 
     public static Vector2[] DescElliptique(Rect dim)
     {
-        float vOffSet = dim.yMax - dim.yMin;
-
         Vector2[] rst = new Vector2[50];
+
+        Elliptical elliptical = new Elliptical(dim, EInflexionType.DESCANDANTE);
 
         float interval = dim.width / (rst.Length - 1);
 
         for (int i = 0; i < rst.Length; i++)
         {
-            float x = dim.x + i * interval;
-
-            if(x < dim.width / 2)
-                rst[i] = new Vector2(x, dim.yMin + vOffSet * Mathf.Sqrt(1 - Mathf.Pow((Mathf.Sqrt(3) * (x - dim.xMin)) / (dim.xMax - dim.xMin), 2)));
-            else
-                rst[i] = new Vector2(x, dim.yMax - vOffSet * Mathf.Sqrt(1 - Mathf.Pow((Mathf.Sqrt(3) * (x - dim.xMax)) / (dim.xMax - dim.xMin), 2)));
+            float x = dim.xMin + i * interval;
+            rst[i] = new Vector2(x, elliptical.image(x));
         }
 
         return rst;
@@ -97,24 +93,14 @@ public static class FunctionGenerator
     {
         Vector2[] rst = new Vector2[50];
 
+        Elliptical elliptical = new Elliptical(dim, EInflexionType.ASCENDANTE);
+
         float interval = dim.width / (rst.Length - 1);
 
         for (int i = 0; i < rst.Length; i++)
         {
-            float x = dim.x + i * interval;
-
-            if (x < dim.width / 2)
-            {
-                float vOffSet = dim.yMin - dim.yMax;
-
-                rst[i] = new Vector2(x, dim.yMax + vOffSet * Mathf.Sqrt(1 - Mathf.Pow((Mathf.Sqrt(3) * (x - dim.xMin)) / (dim.xMax - dim.xMin), 2)));
-            }
-            else
-            {
-                float vOffSet = dim.yMax - dim.yMin;
-
-                rst[i] = new Vector2(x, dim.yMin + vOffSet * Mathf.Sqrt(1 - Mathf.Pow((Mathf.Sqrt(3) * (x - dim.xMax)) / (dim.xMax - dim.xMin), 2)));
-            }
+            float x = dim.xMin + i * interval;
+            rst[i] = new Vector2(x, elliptical.image(x));
         }
 
         return rst;
