@@ -20,7 +20,13 @@ public abstract class Function
     }
 
     public abstract float image(float x);
-    public abstract Vector2 tangeante(float x);
+
+    public Vector2 tangeante(float x)
+    {
+        Vector2 normVec = normal(x);
+        return new Vector2(normVec.y, normVec.x); //3pi/2 rotation
+    }
+    
     public abstract Vector2 normal (float x);
     public abstract float derivative(float x, int n);
 }
