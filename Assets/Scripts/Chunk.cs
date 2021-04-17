@@ -27,7 +27,7 @@ public class Chunk : MonoBehaviour
     private Function m_funct;
 
     private const int m_resolution = 100; // represente the number of chunk inside width of function
-    private const int m_pointCount = 30;
+    private const int m_pointCount = 10;
 
     public void Awake()
     {
@@ -81,19 +81,17 @@ public class Chunk : MonoBehaviour
             }
             else
             {
-               // Debug.Log(currentPointDensity + " != " + pointCount + " rest : " + (pointCount - (int) currentPointDensity));
                 additionnalStepWithRest = step * (pointCount - (int) currentPointDensity);
             }            
             
             for (int i = 0; i < (int) currentPointDensity; ++i) //point number in portion
             {
-                x += step;
                 points.Add(new Vector2((float) x, (float) m_funct.image(x)));
+                x += step;
             }
 
             x += additionnalStepWithRest;
-
-            Debug.Log(x - m_dimension.xMin + "  " + m_dimension.width);
+            
             rest = currentPointDensity - (int)currentPointDensity; //if currentPointDensity == 3.5 rest == 0.5
         }
         points.Add(new Vector2(m_dimension.xMax, m_inflexionType == EInflexionType.ASCENDANTE ? m_dimension.yMax :  m_dimension.yMin));
