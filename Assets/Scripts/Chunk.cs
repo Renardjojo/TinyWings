@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 [SerializeField]
@@ -24,8 +26,8 @@ public class Chunk : MonoBehaviour
     public Rect m_dimension;
     private Function m_funct;
 
-    private const int m_resolution = 10;
-    private const int m_maxPointCount = 30;
+    private const int m_resolution = 100; // represente the number of chunk inside width of function
+    private const int m_pointCount = 30;
 
     public void Awake()
     {
@@ -38,22 +40,19 @@ public class Chunk : MonoBehaviour
 
         //Use integral to obtain point density in portion of curve.
         float[] pointsInSubFunct = Function.IntervalRectMed(functX => { return Mathf.Abs(m_funct.derivative(functX, 2)/ Mathf.Pow(1 + Mathf.Pow(m_funct.derivative(functX, 1), 2), 3/2f));}, m_dimension.xMin, m_dimension.xMax, m_resolution);
-        
+
         float totalPointDensity = 0f;
         foreach (var pointCount in pointsInSubFunct)
         {
-            //Debug.Log(pointCount);
             totalPointDensity += pointCount;
         }
 
         // map max point to maxPointCount than to coef
-        float densityScale = (m_maxPointCount - 2) / totalPointDensity; // -2 because we know value of first and last points
-
+        float densityScale = (m_pointCount - 2) / totalPointDensity; // -2 because we know value of first and last points
+        
         for (int i = 0; i < pointsInSubFunct.Length; ++i)
         {
-            Debug.Log(pointsInSubFunct[i]);
             pointsInSubFunct[i] *= densityScale;
-            Debug.Log(pointsInSubFunct[i]);
         }
         
         //Build points
@@ -69,21 +68,31 @@ public class Chunk : MonoBehaviour
         // 75/3/2.2 * (2 + 0.2) + 75/3/2.2 * (1 + 0.3) + 75/3/2.2 * (7 - 0.5)
         // the third expression use 7 and not 6 because we will use the rest of the previous expression (0.2 + 0.3 + 0.5 + 6 = 7) and report the point here
         //We need apply it because density of point is not an integer but a real and we cannot round it if we want exact number of point
+        float portionSize = m_dimension.width / (float) (pointsInSubFunct.Length);
         foreach (var pointCount in pointsInSubFunct) //portion
         {
             float currentPointDensity = pointCount + rest;
-            float step = m_dimension.width / (float) (pointsInSubFunct.Length * pointCount);
-            float additionnalStepWithRest =
-                ((pointCount - (int) pointCount) * (((int) currentPointDensity) > pointCount ? -1 : 1)) /
-                (int) currentPointDensity;
-            
-            for (int i = 0; i < (int)currentPointDensity; ++i) //point number in portion
+            float step = portionSize / pointCount;
+
+            float additionnalStepWithRest = 0f;
+            if ((int) currentPointDensity == (int)pointCount)
             {
-                x += step + additionnalStepWithRest;
+                additionnalStepWithRest = step * (pointCount - (int)pointCount);
+            }
+            else
+            {
+               // Debug.Log(currentPointDensity + " != " + pointCount + " rest : " + (pointCount - (int) currentPointDensity));
+                additionnalStepWithRest = step * (pointCount - (int) currentPointDensity);
+            }            
+            
+            for (int i = 0; i < (int) currentPointDensity; ++i) //point number in portion
+            {
+                x += step;
                 points.Add(new Vector2((float) x, (float) m_funct.image(x)));
             }
-            //x += step * (pointCount - (int)pointCount) * (((int)currentPointDensity) > pointCount ? -1 : 1);
-            
+
+            x += additionnalStepWithRest;
+
             Debug.Log(x - m_dimension.xMin + "  " + m_dimension.width);
             rest = currentPointDensity - (int)currentPointDensity; //if currentPointDensity == 3.5 rest == 0.5
         }
