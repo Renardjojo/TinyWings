@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -46,27 +47,27 @@ public class Sinusoide : Function
     public override float derivative(float x, int n)
     {
         float sum = 0f;
-        float coef = 0f;
+        float coef = m_amplitude / Mathf.Pow(2, m_pow - 1f);
 
         if (m_pow % 2 == 0)
         {
-            for (int k = 0; k < (m_pow - 2) / 2; ++k)
+            for (int k = 0; k <= (m_pow - 2) / 2f; ++k)
             {
-                sum = Mathf.Pow((-1), k) * Cbin(m_pow, k) * Mathf.Pow((n - 2 * k), n) * Mathf.Cos((n - 2) * x) +
-                      n * Mathf.PI / 2;
+                sum += Mathf.Pow(-1, k) * Cbin(m_pow, k) * Mathf.Pow(m_pulsation * (m_pow - 2 * k), n) *
+                       Mathf.Cos((m_pow - 2) * x * m_pulsation + m_phase + n * Mathf.PI / 2f);
             }
 
-            coef = (-1) ^ (m_pow / 2) / 2 ^ (m_pow - 1);
+            coef *= Mathf.Pow(-1, m_pow / 2f);
         }
         else
         {
-            for (int k = 0; k < (m_pow - 1) / 2; ++k)
+            for (int k = 0; k <= (m_pow - 1) / 2f; ++k)
             {
-                sum = Mathf.Pow((-1), k) * Cbin(m_pow, k) * Mathf.Pow((n - 2 * k), n) * Mathf.Sin((n - 2) * x) +
-                      n * Mathf.PI / 2;
+                sum += Mathf.Pow(-1, k) * Cbin(m_pow, k) * Mathf.Pow(m_pulsation * (m_pow - 2 * k), n) *
+                       Mathf.Sin((m_pow - 2 * k) * x * m_pulsation + m_phase + n * Mathf.PI / 2f);
             }
 
-            coef = (-1) ^ ((m_pow - 1) / 2) / 2 ^ (m_pow - 1);
+            coef *= Mathf.Pow(-1, (m_pow - 1) / 2f);
         }
 
         return coef * sum;

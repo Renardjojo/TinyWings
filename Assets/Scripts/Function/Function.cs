@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq.Expressions;
+using UnityEngine;
 
 [SerializeField]
 public enum EInflexionType
@@ -29,4 +31,27 @@ public abstract class Function
     
     public abstract Vector2 normal (float x);
     public abstract float derivative(float x, int n);
+    
+    /*
+     * @brief : Return area bellow function thanks to median rectangles method
+     */
+    public static float[] IntervalRectMed(Func<float, float> funct, float from, float to, int step)
+    {
+        float[] rst = new float[step];
+        float h = (to - from) / step;
+
+        float xi = from;
+        for (int i = 0; i < step; ++i)
+        {
+            rst[i] = funct(xi + h / 2f) * h;
+            xi += h;
+        }
+
+        return rst;
+    }
+    
+    public static float map(float v, float min1, float max1, float min2, float max2)
+    {
+        return min2 + (v- min1)*(max2-min2)/(max1 - min1);
+    }
 }
