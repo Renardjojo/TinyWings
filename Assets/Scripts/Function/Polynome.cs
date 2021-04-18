@@ -48,7 +48,7 @@ public class Polynome : Function
 
     public override float derivative(float x, int n)
     {
-        Assert.IsTrue(n > 0 && n < 3);
+        Assert.IsTrue(n > 0 && n < 4);
 
         switch (n)
         {
