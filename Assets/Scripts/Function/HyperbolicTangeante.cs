@@ -31,7 +31,7 @@ public class HyperbolicTangeante : Function
         }
         
         m_kprime += Mathf.Abs(image(dim.xMin) - dim.yMax);
-        m_alpha *= ((int) type * 2 - 1);
+        m_alpha *=  (1 + (int) type * 2);
     }
     
     public override float image(float x)
@@ -47,7 +47,31 @@ public class HyperbolicTangeante : Function
 
     public override float derivative(float x, int n)
     {
-        Assert.IsTrue(n > 0 && n < 2);
-        return 0f;
+        Assert.IsTrue(n > 0 && n < 3);
+
+        switch (n)
+        {
+            case 0:
+                return image(x);
+            case 1:
+            {
+                float expVal = Mathf.Exp(m_k * m_alpha * (x - m_b));
+                return m_kprime * -2 * m_k * m_alpha * expVal / ((1 + expVal) * (1 + expVal));
+            }
+            case 2:
+            {
+                //d for derivative. Expression bollow with b / a^2
+                float expVal = Mathf.Exp(m_k * m_alpha * (x - m_b));
+                float a = 1 + expVal;
+                float da = m_k * m_alpha * expVal;
+                float sqrA = a * a;
+                float dSqrA = 2 * a * da;
+                float b = -2 * m_k * m_alpha * expVal;
+                float db = -2 * m_k * m_k * m_alpha * m_alpha * expVal;
+                return m_kprime * (sqrA * db - b * dSqrA) / (sqrA * sqrA);
+            }
+            default:
+                return 0f;
+        }
     }
 }
