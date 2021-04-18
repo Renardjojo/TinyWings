@@ -26,8 +26,8 @@ public class Chunk : MonoBehaviour
     public Rect m_dimension;
     private Function m_funct;
 
-    private const int m_resolution = 30; // represente the number of chunk inside width of function
-    private const int m_pointCount = 25;
+    private const int m_resolution = 20; // represente the number of chunk inside width of function
+    private const int m_pointCount = 50;
 
     public void Awake()
     {
@@ -112,7 +112,7 @@ public class Chunk : MonoBehaviour
         switch (functionType)
         {
             case EType.SINUSOIDE:
-                m_funct = new Sinusoide(m_dimension, inflexionType, Random.Range(1, 1));
+                m_funct = new Sinusoide(m_dimension, inflexionType, Random.Range(1, 11));
                 break;
             
             case EType.POLYNOME:

@@ -54,7 +54,7 @@ public class Sinusoide : Function
             for (int k = 0; k <= (m_pow - 1) / 2f; ++k)
             {
                 sum += Mathf.Pow(-1, k) * Cbin(m_pow, k) * Mathf.Pow(m_pulsation * (m_pow - 2 * k), n) *
-                       Mathf.Sin((m_pow - 2 * k) * x * m_pulsation + m_phase + n * Mathf.PI / 2f);
+                       Mathf.Sin((m_pow - 2 * k) * (x * m_pulsation + m_phase) + n * Mathf.PI / 2f);
             }
 
             coef *= Mathf.Pow(-1, (m_pow - 1) / 2f);
