@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestPoly : MonoBehaviour
+public class FuncitonSandBox : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        Sinusoide p = new Sinusoide(new Rect(0, 0, 830, 450), EInflexionType.ASCENDANTE, 5);
+        HyperbolicTangeante p = new HyperbolicTangeante(new Rect(0, 0, 830, 450), EInflexionType.ASCENDANTE);
 
         float x = 0;
         float step = 830 / 10f;
