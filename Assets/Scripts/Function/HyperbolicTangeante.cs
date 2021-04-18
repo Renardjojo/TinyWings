@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Rendering;
 
 public class HyperbolicTangeante : Function
@@ -46,6 +47,7 @@ public class HyperbolicTangeante : Function
 
     public override float derivative(float x, int n)
     {
+        Assert.IsTrue(n > 0 && n < 2);
         return 0f;
     }
 }
