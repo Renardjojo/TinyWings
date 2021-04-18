@@ -50,6 +50,24 @@ public abstract class Function
         return rst;
     }
     
+    public int Factorial(int n)
+    {
+        if (n == 1)
+            return 1;
+
+        return n * Factorial(n - 1);
+    }
+    
+    public int Cbin(int n, int k)
+    {
+        int res = 1;
+        for (int i = n - k + 1; i <= n; ++i)
+            res *= i;
+        for (int i = 2; i <= k; ++i)
+            res /= i;
+        return res;
+    }
+    
     public static float map(float v, float min1, float max1, float min2, float max2)
     {
         return min2 + (v- min1)*(max2-min2)/(max1 - min1);

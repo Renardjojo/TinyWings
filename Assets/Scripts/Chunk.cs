@@ -26,8 +26,8 @@ public class Chunk : MonoBehaviour
     public Rect m_dimension;
     private Function m_funct;
 
-    private const int m_resolution = 100; // represente the number of chunk inside width of function
-    private const int m_pointCount = 10;
+    private const int m_resolution = 30; // represente the number of chunk inside width of function
+    private const int m_pointCount = 25;
 
     public void Awake()
     {
