@@ -12,12 +12,13 @@
     }
     SubShader
     {
-        Tags { "Queue" = "Transparent" }
+        Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjector"="True" }
         LOD 100
-        
+      
         Pass
         {
-            Blend One One
+            ZWrite Off
+            Blend SrcAlpha OneMinusSrcAlpha
                     
             CGPROGRAM
             #pragma vertex vert
@@ -78,7 +79,7 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-                return fixed4(_Color.rgb * IsPtInsideFunction(localToGlobalUVInRect(i.uv)), _Color.a);
+                return _Color * IsPtInsideFunction(localToGlobalUVInRect(i.uv));
             }
             ENDCG
         }

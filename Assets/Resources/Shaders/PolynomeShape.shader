@@ -11,12 +11,13 @@
     }
     SubShader
     {
-        Tags { "Queue" = "Transparent" }
+        Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjector"="True" }
         LOD 100
-        
+      
         Pass
         {
-            Blend One One
+            ZWrite Off
+            Blend SrcAlpha OneMinusSrcAlpha
                     
             CGPROGRAM
             #pragma vertex vert

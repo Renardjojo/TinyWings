@@ -29,14 +29,21 @@ public class Chunk : MonoBehaviour
     public Material m_TanHMat;
     public Material m_SinMat;
     public Material m_PolynomeMat;
+    
+    Transform m_surface;
+    Transform m_ground;
+    Transform m_sky;
 
     private const int m_resolution = 20; // represente the number of chunk inside width of function
     private const int m_pointCount = 50; //must be pair 
-
-
+    
     void Awake()
     {
-        m_Material = transform.GetChild(0).GetComponent<MeshRenderer>().material;
+        m_surface = transform.Find("Surface");
+        m_ground = transform.Find("Ground");
+        m_sky = transform.Find("Sky");
+
+        m_Material = m_surface.GetComponent<MeshRenderer>().material;
     }
     
     List<Vector2> generatePoints()
@@ -110,32 +117,37 @@ public class Chunk : MonoBehaviour
         m_inflexionType = inflexionType;
         m_dimension = dim;
         
-        transform.GetChild(0).position = new Vector3(m_dimension.x + m_dimension.width / 2, m_dimension.y + m_dimension.height / 2, 0);
-        transform.GetChild(0).localScale = new Vector3(m_dimension.width, m_dimension.height, 0);
+        m_surface.position = new Vector3(m_dimension.x + m_dimension.width / 2, m_dimension.y + m_dimension.height / 2, 0);
+        m_surface.localScale = new Vector3(m_dimension.width, m_dimension.height, 0);
         
+        m_ground.position = new Vector3(m_dimension.x + m_dimension.width / 2, m_surface.position.y - m_ground.localScale.y / 2 + m_dimension.height / 2, 0);
+        m_ground.localScale = new Vector3(m_dimension.width, m_ground.localScale.y, 0);
+        
+        m_sky.position  = new Vector3(m_dimension.x + m_dimension.width / 2, m_surface.position.y + m_sky.localScale.y / 2 - m_dimension.height / 2, 0);
+        m_sky.localScale = new Vector3(m_dimension.width, m_sky.localScale.y, 0);
         
         //Create function and compute constantes
         switch (functionType)
         {
             case EType.SINUSOIDE:
                 m_funct = new Sinusoide(m_dimension, inflexionType, Random.Range(1, 11));
-                transform.GetChild(0).GetComponent<MeshRenderer>().material = new Material(m_SinMat);
+                m_surface.GetComponent<MeshRenderer>().material = new Material(m_SinMat);
                 break;
             
             case EType.POLYNOME:
                 m_funct = new Polynome(m_dimension, inflexionType);
-                transform.GetChild(0).GetComponent<MeshRenderer>().material = new Material(m_PolynomeMat);
+                m_surface.GetComponent<MeshRenderer>().material = new Material(m_PolynomeMat);
                 break;
             
             case EType.HYPBERBOLIC_TAN:
                 m_funct = new HyperbolicTangeante(m_dimension, inflexionType);
-                transform.GetChild(0).GetComponent<MeshRenderer>().material = new Material(m_TanHMat);
+                m_surface.GetComponent<MeshRenderer>().material = new Material(m_TanHMat);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
         
-        m_Material = transform.GetChild(0).GetComponent<MeshRenderer>().material;
+        m_Material = m_surface.GetComponent<MeshRenderer>().material;
         
         //Generate points :
         m_points = generatePoints().ToArray();
