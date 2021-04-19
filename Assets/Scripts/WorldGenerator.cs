@@ -29,6 +29,9 @@ public class WorldGenerator : MonoBehaviour
     void Start()
     {
         GenerateRandomChunks();
+
+        if (Application.isMobilePlatform)
+            QualitySettings.vSyncCount = 0;
     }
     
     private void GenerateRandomChunks()

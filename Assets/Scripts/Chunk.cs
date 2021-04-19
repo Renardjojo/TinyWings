@@ -116,10 +116,10 @@ public class Chunk : MonoBehaviour
         m_surface.position = new Vector3(m_dimension.x + m_dimension.width / 2, m_dimension.y + m_dimension.height / 2, 0);
         m_surface.localScale = new Vector3(m_dimension.width, m_dimension.height, 0);
         
-        m_ground.position = new Vector3(m_dimension.x + m_dimension.width / 2, m_surface.position.y - m_ground.localScale.y / 2 + m_dimension.height / 2, 0);
+        m_ground.position = new Vector3(m_dimension.x + m_dimension.width / 2, m_surface.position.y - m_ground.localScale.y / 2 - m_surface.localScale.y / 2, 0);
         m_ground.localScale = new Vector3(m_dimension.width, m_ground.localScale.y, 0);
         
-        m_sky.position  = new Vector3(m_dimension.x + m_dimension.width / 2, m_surface.position.y + m_sky.localScale.y / 2 - m_dimension.height / 2, 0);
+        m_sky.position  = new Vector3(m_dimension.x + m_dimension.width / 2, m_surface.position.y + m_sky.localScale.y / 2 - m_surface.localScale.y / 2, 0);
         m_sky.localScale = new Vector3(m_dimension.width, m_sky.localScale.y, 0);
         
         //Create function and compute constantes
