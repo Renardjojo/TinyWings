@@ -33,11 +33,13 @@ public abstract class Function
 
     public Vector2 tangeante(float x)
     {
-        Vector2 normVec = normal(x);
-        return new Vector2(normVec.y, normVec.x); //3pi/2 rotation
+        return new Vector2(1, derivative(x, 1)).normalized;
     }
-    
-    public abstract Vector2 normal (float x);
+
+    public Vector2 normal(float x)
+    {
+        return new Vector2(-derivative(x, 1), 1).normalized;
+    }
     public abstract float derivative(float x, int n);
     
     /*

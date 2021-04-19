@@ -46,11 +46,6 @@ public class Sinusoide : Function
         return m_vOffSet + m_amplitude * Mathf.Pow(Mathf.Sin(m_pulsation * x + m_phase), m_pow);
     }
 
-    public override Vector2 normal (float x)
-    {
-        return Vector2.one;
-    }
-
     public override float derivative(float x, int n)
     {
         float sum = 0f;

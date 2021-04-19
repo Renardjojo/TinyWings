@@ -50,11 +50,6 @@ public class HyperbolicTangeante : Function
         return m_a + m_kprime * (1 - exp) / (1 + exp);
     }
 
-    public override Vector2 normal (float x)
-    {
-        return Vector2.one;
-    }
-
     public override float derivative(float x, int n)
     {
         Assert.IsTrue(n > 0 && n < 3);

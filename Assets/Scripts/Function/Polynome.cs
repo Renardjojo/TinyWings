@@ -50,11 +50,6 @@ public class Polynome : Function
         // return m_a * Mathf.Pow(x,3) + m_b * Mathf.Pow(x, 2) + m_c * x + m_d;
     }
 
-    public override Vector2 normal (float x)
-    {
-        return Vector2.one;
-    }
-
     public override float derivative(float x, int n)
     {
         Assert.IsTrue(n > 0 && n < 4);
