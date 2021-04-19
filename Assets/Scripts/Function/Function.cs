@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
+using UnityEditor.VersionControl;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 [SerializeField]
 public enum EInflexionType
@@ -21,6 +23,12 @@ public abstract class Function
         m_type = type;
     }
 
+    public virtual void sendDataToShader(Material mat)
+    {
+        Assert.IsTrue(mat.HasProperty("_Dim"));
+        mat.SetVector("_Dim", new Vector4(m_dim.xMin, m_dim.yMin, m_dim.xMax, m_dim.yMax));
+    }
+    
     public abstract float image(float x);
 
     public Vector2 tangeante(float x)

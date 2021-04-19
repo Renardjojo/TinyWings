@@ -31,7 +31,17 @@ public class HyperbolicTangeante : Function
         }
         
         m_kprime += Mathf.Abs(image(dim.xMin) - dim.yMax);
-        m_alpha *=  (1 + (int) type * 2);
+        m_alpha *=  ((int) type * 2 - 1);
+    }
+    
+    public override void sendDataToShader(Material mat)
+    {
+        base.sendDataToShader(mat);
+        mat.SetFloat("_A", m_a);
+        mat.SetFloat("_B", m_b);
+        mat.SetFloat("_Kp", m_kprime);
+        mat.SetFloat("_K", m_k);
+        mat.SetFloat("_Alpha", m_alpha);
     }
     
     public override float image(float x)

@@ -19,21 +19,26 @@ public enum EType
 [ExecuteInEditMode ,RequireComponent(typeof(EdgeCollider2D))]
 public class Chunk : MonoBehaviour
 {
-    private Vector2[] points;
+    private Vector2[] m_points;
     [SerializeField] private Material m_Material;
     public EType m_functionType; // only for display in editor
     public EInflexionType m_inflexionType;
     public Rect m_dimension;
     private Function m_funct;
 
-    private const int m_resolution = 20; // represente the number of chunk inside width of function
-    private const int m_pointCount = 50;
+    public Material m_TanHMat;
+    public Material m_SinMat;
+    public Material m_PolynomeMat;
 
-    public void Awake()
+    private const int m_resolution = 20; // represente the number of chunk inside width of function
+    private const int m_pointCount = 50; //must be pair 
+
+
+    void Awake()
     {
         m_Material = transform.GetChild(0).GetComponent<MeshRenderer>().material;
     }
-
+    
     List<Vector2> generatePoints()
     {
         List<Vector2> points = new List<Vector2>();
@@ -108,33 +113,38 @@ public class Chunk : MonoBehaviour
         transform.GetChild(0).position = new Vector3(m_dimension.x + m_dimension.width / 2, m_dimension.y + m_dimension.height / 2, 0);
         transform.GetChild(0).localScale = new Vector3(m_dimension.width, m_dimension.height, 0);
         
+        
         //Create function and compute constantes
         switch (functionType)
         {
             case EType.SINUSOIDE:
                 m_funct = new Sinusoide(m_dimension, inflexionType, Random.Range(1, 11));
+                transform.GetChild(0).GetComponent<MeshRenderer>().material = new Material(m_SinMat);
                 break;
             
             case EType.POLYNOME:
                 m_funct = new Polynome(m_dimension, inflexionType);
+                transform.GetChild(0).GetComponent<MeshRenderer>().material = new Material(m_PolynomeMat);
                 break;
             
             case EType.HYPBERBOLIC_TAN:
                 m_funct = new HyperbolicTangeante(m_dimension, inflexionType);
+                transform.GetChild(0).GetComponent<MeshRenderer>().material = new Material(m_TanHMat);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
         
+        m_Material = transform.GetChild(0).GetComponent<MeshRenderer>().material;
+        
         //Generate points :
-        GetComponent<EdgeCollider2D>().points = generatePoints().ToArray();
+        m_points = generatePoints().ToArray();
+        GetComponent<EdgeCollider2D>().points = m_points;
     }
 
     // Update is called once per frame
     void Update()
     {
-        m_Material.SetVector("_Dim", new Vector4(m_dimension.xMin, m_dimension.yMin, m_dimension.xMax, m_dimension.yMax));
-        
-        m_Material.SetFloat("_isDesc", EInflexionType.DESCANDANTE == m_inflexionType ? 1 : 0);
+        m_funct.sendDataToShader(m_Material);
     }
 }

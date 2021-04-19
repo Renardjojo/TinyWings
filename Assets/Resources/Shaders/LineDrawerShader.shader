@@ -4,8 +4,6 @@
     {
         _Dim ("Dim", Vector) = (0,0,0,0)
         _Color ("Color", Color) = (1,0,0,1)
-        _Pt1Y ("pt1 y", Float) = 0.0
-        _Pt2Y ("pt2 y", Float) = 0.0
     }
     SubShader
     {
@@ -35,8 +33,8 @@
 
             float4 _Dim;
             fixed4 _Color;
-            float _Pt1Y;
-            float _Pt2Y;
+            //uniform int _Points_Length = 0;
+            uniform float4 _Points [25]; // in float2 but contain 2 point with (x, y) = position
 
             v2f vert (appdata v)
             {
@@ -74,7 +72,17 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-                return _Color * IsPtBellowLine(float2(_Dim.x, _Pt1Y), float2(_Dim.z, _Pt2Y), LocalToGlobalUVInRect(i.uv));
+                float4 fragColorRst = {0.0, 0.0, 0.0, 0.0};
+                fixed2 localUV = LocalToGlobalUVInRect(i.uv);
+                
+                for (int i = 0; i < 24; i += 3)
+                {
+                    fragColorRst = IsPtBellowLine(float2(_Points[i].x, _Points[i].y), float2(_Points[i].z, _Points[i].w), localUV) *
+                                   IsPtBellowLine(float2(_Points[i].z, _Points[i].w), float2(_Points[i + 1].x, _Points[i + 1].y), localUV) * 
+                                   IsPtBellowLine(float2(_Points[i + 1].x, _Points[i + 1].y), float2(_Points[i + 1].y, _Points[i + 1].z), localUV);
+                }
+                
+                return _Color * fragColorRst;
             }
             ENDCG
         }

@@ -32,6 +32,15 @@ public class Polynome : Function
         m_d = b.w;
     }
     
+    public override void sendDataToShader(Material mat)
+    {
+        base.sendDataToShader(mat);
+        mat.SetFloat("_A", m_a);
+        mat.SetFloat("_B", m_b);
+        mat.SetFloat("_C", m_c);
+        mat.SetFloat("_D", m_d);
+    }
+    
     public override float image(float x)
     {
         //Use horner method : https://en.wikipedia.org/wiki/Horner%27s_method. That allow fast image computation

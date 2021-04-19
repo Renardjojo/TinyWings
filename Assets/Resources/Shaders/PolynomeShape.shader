@@ -1,10 +1,13 @@
-﻿Shader "Custom/SinusoidShape"
+﻿Shader "Custom/PolynomeShape"
 {
     Properties
     {
         _Dim ("Dim", Vector) = (0,0,0,0)
         _Color ("Color", Color) = (1,0,0,1)
-        [Toggle] _isDesc("is descendant", Float) = 0
+        _A ("A", float) = 0
+        _B ("B", float) = 0
+        _C ("C", float) = 0
+        _D ("D", float) = 0
     }
     SubShader
     {
@@ -34,7 +37,10 @@
 
             float4 _Dim;
             fixed4 _Color;
-            bool _isDesc;
+            float _A;
+            float _B;
+            float _C;
+            float _D;
 
             v2f vert (appdata v)
             {
@@ -51,19 +57,7 @@
             
             float IsPtInsideFunction(float2 pt, float transitionHalfWidth = .005)
             {
-                float   xMin = _Dim.x, 
-                        yMin = _Dim.y,
-                        xMax = _Dim.z,
-                        yMax = _Dim.w; 
-                        
-                float width = xMax - xMin, height = yMax - yMin;    
-                
-                float amplitude = height / 2;
-                float vOffSet = amplitude + yMin;
-                float pulsation = UNITY_PI / width;
-                float phase = signWithBool(_isDesc) * UNITY_PI / 2 - xMin * pulsation;
-                        
-                return smoothstep(pt.y - transitionHalfWidth, pt.y + transitionHalfWidth, vOffSet + amplitude * sin(pulsation * pt.x + phase));
+                return smoothstep(pt.y - transitionHalfWidth, pt.y + transitionHalfWidth, ((_A * pt.x + _B) * pt.x + _C) * pt.x + _D);
             }
             
             float2 localToGlobalUVInRect(float2 uv)
