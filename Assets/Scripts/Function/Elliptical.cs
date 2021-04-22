@@ -13,20 +13,51 @@ public class Elliptical : Function
     {
         k = dim.xMax - dim.xMin;
         s = Mathf.Sqrt(3);
+
+        if (m_type == EInflexionType.DESCANDANTE)
+            vOffSet = m_dim.yMax - m_dim.yMin;
     }
 
     public override float derivative(float x, int n)
     {
+        if(n == 1)
+        {
+            if (m_type == EInflexionType.DESCANDANTE)
+            {
+                //first part of the curve
+                if(x < (m_dim.xMin + m_dim.xMax) / 2)
+                {
+                    return 3 * (m_dim.yMax - m_dim.yMin) * (x - m_dim.xMin) /
+                        (Mathf.Pow(m_dim.xMax - m_dim.xMin, 2) * Mathf.Sqrt(1 - (3 * Mathf.Pow((x - m_dim.xMin) / (m_dim.xMax - m_dim.xMin), 2))));
+                }
+                else
+                {
+                    return 3 * (m_dim.yMax - m_dim.yMin) * (x - m_dim.xMin) /
+                        (Mathf.Pow(m_dim.xMax - m_dim.xMin, 2) * Mathf.Sqrt(1 - (3 * Mathf.Pow((x - m_dim.xMin) / (m_dim.xMax - m_dim.xMin), 2))));
+                }
+            }
+            else
+            {
+                if (x < (m_dim.xMin + m_dim.xMax) / 2)
+                {
+                    return 3 * (m_dim.yMin - m_dim.yMax) * (x - m_dim.xMin) /
+                    (Mathf.Pow(m_dim.xMax - m_dim.xMin, 2) * Mathf.Sqrt(1 - (3 * Mathf.Pow((x - m_dim.xMin) / (m_dim.xMax - m_dim.xMin), 2))));
+                }
+                else
+                {
+                    return 3 * (m_dim.yMax - m_dim.yMax) * (x - m_dim.xMax) /
+                    (Mathf.Pow(m_dim.xMax - m_dim.xMin, 2) * Mathf.Sqrt(1 - (3 * Mathf.Pow((x - m_dim.xMax) / (m_dim.xMax - m_dim.xMin), 2))));
+                }
+            }
+        }
+
         return 0f;
     }
 
     public override float image(float x)
     {
-        Debug.Log(x);
         if (m_type == EInflexionType.DESCANDANTE)
         {
-            vOffSet = m_dim.yMax - m_dim.yMin;
-            
             if (x < (m_dim.xMin + m_dim.xMax) / 2)
                 return m_dim.yMin + vOffSet * Mathf.Sqrt(1 - Mathf.Pow(s * (x - m_dim.xMin) / k, 2));
             else
