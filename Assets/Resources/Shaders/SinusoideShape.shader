@@ -4,16 +4,21 @@
     {
         _Dim ("Dim", Vector) = (0,0,0,0)
         _Color ("Color", Color) = (1,0,0,1)
-        [Toggle] _isDesc("is descendant", Float) = 0
+        _Amplitude ("Amplitude", float) = 0
+        _VOffset ("VOffset", float) = 0
+        _Pulsation ("Pulsation", float) = 0
+        _Phase ("Phase", float) = 0
+        _Pow ("Pow", float) = 0
     }
     SubShader
     {
-        Tags { "Queue" = "Transparent" }
+        Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjector"="True" }
         LOD 100
-        
+      
         Pass
         {
-            Blend One One
+            ZWrite Off
+            Blend SrcAlpha OneMinusSrcAlpha
                     
             CGPROGRAM
             #pragma vertex vert
@@ -34,7 +39,11 @@
 
             float4 _Dim;
             fixed4 _Color;
-            bool _isDesc;
+            fixed _Amplitude;
+            fixed _VOffset;
+            fixed _Pulsation;
+            fixed _Phase;
+            fixed _Pow;
 
             v2f vert (appdata v)
             {
@@ -44,29 +53,19 @@
                 return o;
             }
             
-            float signWithBool(float boolean)
+            float IsPtInsideFunction(fixed2 pt, fixed transitionHalfWidth = .005)
             {
-                return boolean * 2 - 1;
+                float powSin = 1.f;
+                
+                for (int i = 0; i < _Pow; ++i)
+                {
+                    powSin *= sin(_Pulsation * pt.x + _Phase);
+                }
+                
+                return smoothstep(pt.y - transitionHalfWidth, pt.y + transitionHalfWidth, _VOffset + _Amplitude * powSin);
             }
             
-            float IsPtInsideFunction(float2 pt, float transitionHalfWidth = .005)
-            {
-                float   xMin = _Dim.x, 
-                        yMin = _Dim.y,
-                        xMax = _Dim.z,
-                        yMax = _Dim.w; 
-                        
-                float width = xMax - xMin, height = yMax - yMin;
-                
-                float amplitude = height / 2;
-                float vOffSet = amplitude + yMin;
-                float pulsation = UNITY_PI / width;
-                float phase = signWithBool(_isDesc) * UNITY_PI / 2 - xMin * pulsation;
-                        
-                return smoothstep(pt.y - transitionHalfWidth, pt.y + transitionHalfWidth, vOffSet + amplitude * sin(pulsation * pt.x + phase));
-            }
-
-            float2 localToGlobalUVInRect(float2 uv)
+            float2 localToGlobalUVInRect(fixed2 uv)
             {
                 float2 pt = uv;
                 pt.x *= _Dim.z - _Dim.x;

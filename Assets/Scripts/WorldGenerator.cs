@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
 using UnityEngine;
@@ -30,6 +29,9 @@ public class WorldGenerator : MonoBehaviour
     void Start()
     {
         GenerateRandomChunks();
+
+        if (Application.isMobilePlatform)
+            QualitySettings.vSyncCount = 0;
     }
     
     private void GenerateRandomChunks()

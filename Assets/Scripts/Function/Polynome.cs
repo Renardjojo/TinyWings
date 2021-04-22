@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Assertions;
 
 public class Polynome : Function
 {
@@ -30,18 +29,40 @@ public class Polynome : Function
         m_d = b.w;
     }
     
+    public override void sendDataToShader(Material mat)
+    {
+        base.sendDataToShader(mat);
+        mat.SetFloat("_A", m_a);
+        mat.SetFloat("_B", m_b);
+        mat.SetFloat("_C", m_c);
+        mat.SetFloat("_D", m_d);
+    }
+    
     public override float image(float x)
     {
-        return m_a * Mathf.Pow(x,3) + m_b * Mathf.Pow(x, 2) + m_c * x + m_d;
-    }
-
-    public override Vector2 normal (float x)
-    {
-        return Vector2.one;
+        //Use horner method : https://en.wikipedia.org/wiki/Horner%27s_method. That allow fast image computation
+        return ((m_a * x + m_b) * x + m_c) * x + m_d;
+        
+        // Version without (Cost of power is not negligeable)
+        // return m_a * Mathf.Pow(x,3) + m_b * Mathf.Pow(x, 2) + m_c * x + m_d;
     }
 
     public override float derivative(float x, int n)
     {
-        return 0f;
+        Assert.IsTrue(n > 0 && n < 4);
+
+        switch (n)
+        {
+            case 0:
+                return image(x);
+            case 1:
+                return (3 * m_a * x + 2 * m_b) * x + m_c;
+            case 2:
+                return 6 * m_a * x + 2 * m_b;
+            case 3:
+                return 6 * m_a;
+            default:
+                return 0;
+        }
     }
 }

@@ -533,16 +533,16 @@ MonoBehaviour:
   m_YDamping: 1
   m_ZDamping: 1
   m_TargetMovementOnly: 1
-  m_ScreenX: 0.5973452
-  m_ScreenY: 0.5028329
+  m_ScreenX: 0.172
+  m_ScreenY: 0.5
   m_CameraDistance: 10
-  m_DeadZoneWidth: 0.07079641
+  m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0.11331453
   m_DeadZoneDepth: 0
   m_UnlimitedSoftZone: 0
-  m_SoftZoneWidth: 0.36106196
+  m_SoftZoneWidth: 0.122838795
   m_SoftZoneHeight: 0.43172824
-  m_BiasX: 0
+  m_BiasX: 0.5
   m_BiasY: 0
   m_CenterOnActivate: 1
   m_GroupFramingMode: 2
@@ -807,7 +807,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 10
   field of view: 60
   orthographic: 1
   orthographic size: 5
@@ -834,7 +834,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846186100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.6761091, y: 9.058329, z: -10}
+  m_LocalPosition: {x: 6.328706, y: 9.03, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1039,7 +1039,7 @@ MonoBehaviour:
     FieldOfView: 60
     OrthographicSize: 5
     NearClipPlane: 0.3
-    FarClipPlane: 1000
+    FarClipPlane: 10
     Dutch: 0
     LensShift: {x: 0, y: 0}
   m_Transitions:
@@ -1058,7 +1058,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1134749330}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.6761091, y: 9.058329, z: -10}
+  m_LocalPosition: {x: 6.328706, y: 9.03, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 778867337}
@@ -1821,8 +1821,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2916302116989156583, guid: fc681833aef4411438c1cc26d9ab392f,
         type: 3}
+      propertyPath: m_Mass
+      value: 12.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 2916302116989156583, guid: fc681833aef4411438c1cc26d9ab392f,
+        type: 3}
       propertyPath: m_Constraints
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2916302116989156583, guid: fc681833aef4411438c1cc26d9ab392f,
+        type: 3}
+      propertyPath: m_UseAutoMass
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2916302116989156584, guid: fc681833aef4411438c1cc26d9ab392f,
         type: 3}
@@ -1932,7 +1942,7 @@ PrefabInstance:
     - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
         type: 3}
       propertyPath: thrust
-      value: 10
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
         type: 3}

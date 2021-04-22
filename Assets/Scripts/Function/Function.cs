@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Assertions;
 
 [SerializeField]
 public enum EInflexionType
@@ -19,14 +21,63 @@ public abstract class Function
         m_type = type;
     }
 
+    public virtual void sendDataToShader(Material mat)
+    {
+        Assert.IsTrue(mat.HasProperty("_Dim"));
+        mat.SetVector("_Dim", new Vector4(m_dim.xMin, m_dim.yMin, m_dim.xMax, m_dim.yMax));
+    }
+    
     public abstract float image(float x);
 
     public Vector2 tangeante(float x)
     {
-        Vector2 normVec = normal(x);
-        return new Vector2(normVec.y, normVec.x); //3pi/2 rotation
+        return new Vector2(1, derivative(x, 1)).normalized;
+    }
+
+    public Vector2 normal(float x)
+    {
+        return new Vector2(-derivative(x, 1), 1).normalized;
+    }
+    public abstract float derivative(float x, int n);
+    
+    /*
+     * @brief : Return area bellow function thanks to median rectangles method
+     */
+    public static float[] IntervalRectMed(Func<float, float> funct, float from, float to, int step)
+    {
+        float[] rst = new float[step];
+        float h = (to - from) / step;
+
+        float xi = from;
+        for (int i = 0; i < step; ++i)
+        {
+            rst[i] = funct(xi + h / 2f) * h;
+            xi += h;
+        }
+
+        return rst;
     }
     
-    public abstract Vector2 normal (float x);
-    public abstract float derivative(float x, int n);
+    public int Factorial(int n)
+    {
+        if (n == 1)
+            return 1;
+
+        return n * Factorial(n - 1);
+    }
+    
+    public int Cbin(int n, int k)
+    {
+        int res = 1;
+        for (int i = n - k + 1; i <= n; ++i)
+            res *= i;
+        for (int i = 2; i <= k; ++i)
+            res /= i;
+        return res;
+    }
+    
+    public static float map(float v, float min1, float max1, float min2, float max2)
+    {
+        return min2 + (v- min1)*(max2-min2)/(max1 - min1);
+    }
 }

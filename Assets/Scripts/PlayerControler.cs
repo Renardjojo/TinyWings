@@ -60,6 +60,9 @@ public class PlayerControler : MonoBehaviour
     {
         StartCoroutine(FPSCorroutine());
         minZCameraPos = vcam.m_Lens.OrthographicSize;
+        
+        MS.SetTextWithRoundFloat(ms);
+        MV.SetTextWithRoundFloat(mv);
     }
 
     bool IsGrounded()
