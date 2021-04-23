@@ -77,9 +77,13 @@ public class Elliptical : Function
             }
         }
     }
-
-    public override Vector2 normal(float x)
+    
+    public override void sendDataToShader(Material mat)
     {
-        return Vector2.one;
+        base.sendDataToShader(mat);
+        mat.SetFloat("_vOffset", vOffSet);
+        mat.SetFloat("_K", k);
+        mat.SetFloat("_S", s);
     }
+    
 }
