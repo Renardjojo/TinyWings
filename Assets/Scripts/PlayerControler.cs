@@ -4,16 +4,16 @@ using UnityEngine;
 using Cinemachine;
 using UnityEngine.PlayerLoop;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
+[RequireComponent(typeof(PointCollider), typeof(MyRigidbody))]
 public class PlayerControler : MonoBehaviour
 {
-    public float thrust = 1f;
-    private Rigidbody2D rigid;
-    private BoxCollider2D box;
+    public float m_thrust = 1f;
     public float raycastVDistance = 1f;
 
     [SerializeField]
     private float minZCameraPos = -15.0f;
+
+    private MyRigidbody m_rigid;
     
     //UI
     [SerializeField] private TextFloatLink FPS;
@@ -49,25 +49,18 @@ public class PlayerControler : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        rigid = GetComponent<Rigidbody2D>();
-        box = GetComponent<BoxCollider2D>();
-
         ms = PlayerPrefs.GetFloat("MS", 0);
         mv = PlayerPrefs.GetFloat("MV", 0);
+        m_rigid = GetComponent<MyRigidbody>();
     }
 
     void Start()
     {
         StartCoroutine(FPSCorroutine());
         minZCameraPos = vcam.m_Lens.OrthographicSize;
-        
+
         MS.SetTextWithRoundFloat(ms);
         MV.SetTextWithRoundFloat(mv);
-    }
-
-    bool IsGrounded()
-    {
-        return Physics2D.Raycast(transform.position - transform.up * (box.size.y / 2 + 0.001f), -transform.up, raycastVDistance);
     }
 
     void Update()
@@ -82,7 +75,7 @@ public class PlayerControler : MonoBehaviour
 
     void FixedUpdate()
     {
-        s = rigid.velocity.magnitude;
+        s = m_rigid.m_velocity.magnitude;
         v = transform.position.y;
         
         S.SetTextWithRoundFloat(s);
@@ -102,14 +95,10 @@ public class PlayerControler : MonoBehaviour
             PlayerPrefs.SetFloat("MV", mv);
         }
         
-        if ((Input.touchCount > 0 || Input.GetKey(KeyCode.Space)) && IsGrounded())
+        if ((Input.touchCount > 0 || Input.GetKey(KeyCode.Space)) && m_rigid.m_isGrounded)
         {
-            Debug.DrawLine(transform.position - transform.up * (box.size.y / 2 + 0.001f), transform.position - transform.up * (box.size.y / 2 + 0.001f) + -transform.up * raycastVDistance, Color.green);
-            rigid.AddForce(transform.right * thrust, ForceMode2D.Force);
-        }
-        else
-        {
-            Debug.DrawLine(transform.position - transform.up * (box.size.y / 2 + 0.001f), transform.position - transform.up * (box.size.y / 2 + 0.001f) + -transform.up * raycastVDistance, Color.red);
+            m_rigid.AddForce(transform.right * m_thrust * Time.fixedDeltaTime);
+            Debug.DrawLine(transform.position, transform.position + new Vector3((transform.right * m_thrust).x, (transform.right * m_thrust).y, 0f), Color.yellow);
         }
     }
 

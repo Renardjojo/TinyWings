@@ -13,7 +13,7 @@ public enum EType
     COUNT
 }
 
-[ExecuteInEditMode ,RequireComponent(typeof(EdgeCollider2D))]
+[ExecuteInEditMode]
 public class Chunk : MonoBehaviour
 {
     private Vector2[] m_points;
@@ -21,7 +21,7 @@ public class Chunk : MonoBehaviour
     public EType m_functionType; // only for display in editor
     public EInflexionType m_inflexionType;
     public Rect m_dimension;
-    private Function m_funct;
+    public Function m_funct;
 
     public Material m_TanHMat;
     public Material m_SinMat;
@@ -120,7 +120,7 @@ public class Chunk : MonoBehaviour
         m_ground.position = new Vector3(m_dimension.x + m_dimension.width / 2, m_surface.position.y - m_ground.localScale.y / 2 - m_surface.localScale.y / 2, 0);
         m_ground.localScale = new Vector3(m_dimension.width, m_ground.localScale.y, 0);
         
-        m_sky.position  = new Vector3(m_dimension.x + m_dimension.width / 2, m_surface.position.y + m_sky.localScale.y / 2 - m_surface.localScale.y / 2, 0);
+        m_sky.position  = new Vector3(m_dimension.x + m_dimension.width / 2, m_surface.position.y + m_sky.localScale.y / 2 - m_surface.localScale.y / 2, 0.01f);
         m_sky.localScale = new Vector3(m_dimension.width, m_sky.localScale.y, 0);
         
         //Create function and compute constantes
@@ -153,7 +153,6 @@ public class Chunk : MonoBehaviour
         
         //Generate points :
         m_points = generatePoints().ToArray();
-        GetComponent<EdgeCollider2D>().points = m_points;
     }
 
     // Update is called once per frame
