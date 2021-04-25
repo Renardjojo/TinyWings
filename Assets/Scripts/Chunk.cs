@@ -29,6 +29,7 @@ public class Chunk : MonoBehaviour
     public Material m_TanHMat;
     public Material m_SinMat;
     public Material m_PolynomeMat;
+    public Material m_EllipticMat;
     
     [Header("Setting")]
     [SerializeField] private const int m_groundVerticalSize = 10000;
@@ -150,6 +151,7 @@ public class Chunk : MonoBehaviour
 
             case EType.ELLIPTIC:
                 m_funct = new Elliptical(m_dimension, inflexionType);
+                m_surface.GetComponent<MeshRenderer>().material = new Material(m_EllipticMat);
                 break;
 
             default:
