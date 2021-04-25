@@ -30,9 +30,12 @@ public class WorldGenerator : MonoBehaviour
     void Start()
     {
         GenerateRandomChunks();
-
+        
         if (Application.isMobilePlatform)
-            QualitySettings.vSyncCount = 0;
+        {
+            QualitySettings.vSyncCount = 1;
+            Application.targetFrameRate = 60;
+        }
     }
     
     private void GenerateRandomChunks()

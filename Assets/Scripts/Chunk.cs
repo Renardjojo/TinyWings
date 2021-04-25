@@ -29,7 +29,6 @@ public class Chunk : MonoBehaviour
     
     Transform m_surface;
     Transform m_ground;
-    Transform m_sky;
 
     private const int m_resolution = 20; // represente the number of chunk inside width of function
     private const int m_pointCount = 50; //must be pair 
@@ -38,7 +37,6 @@ public class Chunk : MonoBehaviour
     {
         m_surface = transform.Find("Surface");
         m_ground = transform.Find("Ground");
-        m_sky = transform.Find("Sky");
 
         m_Material = m_surface.GetComponent<MeshRenderer>().material;
     }
@@ -119,9 +117,6 @@ public class Chunk : MonoBehaviour
         
         m_ground.position = new Vector3(m_dimension.x + m_dimension.width / 2, m_surface.position.y - m_ground.localScale.y / 2 - m_surface.localScale.y / 2, 0);
         m_ground.localScale = new Vector3(m_dimension.width, m_ground.localScale.y, 0);
-        
-        m_sky.position  = new Vector3(m_dimension.x + m_dimension.width / 2, m_surface.position.y + m_sky.localScale.y / 2 - m_surface.localScale.y / 2, 0.01f);
-        m_sky.localScale = new Vector3(m_dimension.width, m_sky.localScale.y, 0);
         
         //Create function and compute constantes
         switch (functionType)
