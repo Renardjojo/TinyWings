@@ -156,13 +156,13 @@ public class Chunk : MonoBehaviour
     void Update()
     {
         // uncomment to test normal and tangeante
-        /*
+        
         foreach (var point in m_points)
         {
             Debug.DrawLine(new Vector3(point.x, point.y), new Vector3(point.x, point.y) + new Vector3(m_funct.normal(point.x).x, m_funct.normal(point.x).y) * 10f, Color.blue);
             Debug.DrawLine(new Vector3(point.x, point.y), new Vector3(point.x, point.y) + new Vector3(m_funct.tangeante(point.x).x, m_funct.tangeante(point.x).y) * 10f, Color.red);
         }
-        */
+        
         m_funct.sendDataToShader(m_Material);
     }
 }

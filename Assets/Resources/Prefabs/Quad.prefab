@@ -57,6 +57,7 @@ MonoBehaviour:
   m_TanHMat: {fileID: 2100000, guid: b0c52c544336e364bb404eafbc9fd455, type: 2}
   m_SinMat: {fileID: 2100000, guid: cb06772c9c714a841bcc9eab35dff69d, type: 2}
   m_PolynomeMat: {fileID: 2100000, guid: 6ae99c8a0bdc2884bbc70644711a731c, type: 2}
+  m_EllipticMat: {fileID: 2100000, guid: a2eb30e936eba7e459f9b41e7a94737e, type: 2}
 --- !u!1 &3609306642371277195
 GameObject:
   m_ObjectHideFlags: 0
