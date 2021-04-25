@@ -15,11 +15,13 @@ public class Sinusoide : Function
         int sign = (int)type * 2 - 1;
         int powOdd = pow % 2;
         
+        //Only compute constants with rect base on origin. Avoid float imprecision with large xMin and yMin values and optimize computation
+        //Also allow use to base shader on origin (avoid to send minX and minY)
         m_pow = pow;
         m_amplitude = dim.height / (powOdd + 1);
-        m_vOffSet = powOdd * m_amplitude + dim.yMin;
+        m_vOffSet = powOdd * m_amplitude; // instead of : powOdd * m_amplitude + m_dim.yMin
         m_pulsation = Mathf.PI / ((dim.width * 2) / (powOdd + 1));
-        m_phase = (powOdd == 1 ? sign * Mathf.PI / 2 : (2 *  Mathf.PI) / (sign + 3)) - dim.xMin * m_pulsation;
+        m_phase = (powOdd == 1 ? sign * Mathf.PI / 2 : (2 *  Mathf.PI) / (sign + 3)); // instead of (powOdd == 1 ? sign * Mathf.PI / 2 : (2 *  Mathf.PI) / (sign + 3)) - dim.xMin * m_pulsation;
     }
 
     public override void sendDataToShader(Material mat)
@@ -40,14 +42,18 @@ public class Sinusoide : Function
     
     public override float image(float x)
     {
-        return m_vOffSet + m_amplitude * Mathf.Pow(Mathf.Sin(m_pulsation * x + m_phase), m_pow);
+        //Constants is based on rect located on the origin. Avoid float imprecision with large xMin and yMin values.
+        //Also allow use to base shader on origin (avoid to send minX and minY)
+        x -= m_dim.xMin;
+        return m_dim.yMin + m_vOffSet + m_amplitude * Mathf.Pow(Mathf.Sin(m_pulsation * x + m_phase), m_pow);
     }
 
     public override float derivative(float x, int n)
     {
         float sum = 0f;
         float coef = m_amplitude / Mathf.Pow(2, m_pow - 1f);
-
+        x -= m_dim.xMin;
+        
         if (m_pow % 2 == 0)
         {
             for (int k = 0; k <= (m_pow - 2) / 2f; ++k)

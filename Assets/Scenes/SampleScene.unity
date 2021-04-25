@@ -870,7 +870,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846186100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.344698, y: 22.36, z: -10}
+  m_LocalPosition: {x: 6.355705, y: 22.36, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1094,7 +1094,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1134749330}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.344698, y: 22.36, z: -10}
+  m_LocalPosition: {x: 6.355705, y: 22.36, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 778867337}
@@ -1352,8 +1352,8 @@ MonoBehaviour:
   camera: {fileID: 1134749332}
   chunkPrefab: {fileID: 796401386517783156, guid: bc48f38c981478842b2c76c456fa303c,
     type: 3}
-  hScale: {x: 100, y: 200}
-  vScale: {x: 20, y: 40}
+  hScale: {x: 0.01, y: 0.02}
+  vScale: {x: 0.002, y: 0.004}
   cameraGenerationAnticipationFactor: 2
   cameraDestructionAnticipationFactor: 2
   m_frictionCoef: 0.2
@@ -1984,7 +1984,7 @@ PrefabInstance:
     - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
         type: 3}
       propertyPath: m_thrust
-      value: 300
+      value: 30000
       objectReference: {fileID: 0}
     - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
         type: 3}

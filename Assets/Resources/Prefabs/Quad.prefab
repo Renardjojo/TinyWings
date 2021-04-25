@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5412062612906422500}
   - component: {fileID: 2604783063557813912}
-  - component: {fileID: 2785158519380577678}
   m_Layer: 0
   m_Name: Quad
   m_TagString: Untagged
@@ -59,22 +58,6 @@ MonoBehaviour:
   m_TanHMat: {fileID: 2100000, guid: b0c52c544336e364bb404eafbc9fd455, type: 2}
   m_SinMat: {fileID: 2100000, guid: cb06772c9c714a841bcc9eab35dff69d, type: 2}
   m_PolynomeMat: {fileID: 2100000, guid: 6ae99c8a0bdc2884bbc70644711a731c, type: 2}
---- !u!68 &2785158519380577678
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 796401386517783156}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points: []
 --- !u!1 &1043151433592032619
 GameObject:
   m_ObjectHideFlags: 0

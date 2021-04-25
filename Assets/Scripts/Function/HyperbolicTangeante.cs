@@ -3,7 +3,7 @@ using UnityEngine.Assertions;
 
 public class HyperbolicTangeante : Function
 {
-    float m_a;
+    //float m_a; //A is same as K
     float m_b;
     float m_kprime;
     float m_k;
@@ -12,28 +12,31 @@ public class HyperbolicTangeante : Function
     public HyperbolicTangeante(Rect dim, EInflexionType type)
         : base(dim, type)
     {
-        const float espilone = 0.01f;
+        //Only compute constants with rect base on origin. Avoid float imprecision with large xMin and yMin values and optimize computation
+        //Also allow use to base shader on origin (avoid to send minX and minY)
+       
         m_kprime = m_k = dim.height / 2f;
-        m_a = m_k + dim.yMin;
-        m_b = dim.width / 2f + dim.xMin;
+        //m_a = m_k; //instead of : m_k + dim.yMin
+        m_b = dim.width / 2f; //instead of : dim.width / 2f + dim.xMin
 
-        float step = 1/dim.width * 1/dim.height;
-        
+        //Optimize alpha start and step in function of dimension ratio (hack, do not represente anything but it work)
+        float step = 1 / dim.width * 1 / dim.height;
         m_alpha = step;
         
-        while (Mathf.Abs(image(dim.xMin) - dim.yMax) > espilone) //tanh is pair
+        const float espilone = 0.01f;
+        while (Mathf.Abs(image(dim.xMin) - dim.yMax) > espilone) //tanh is pair, so optimize research only on one side
         {
             m_alpha += step; 
         }
         
-        m_kprime += Mathf.Abs(image(dim.xMin) - dim.yMax);
-        m_alpha *=  ((int) type * 2 - 1);
+        m_kprime += Mathf.Abs(image(dim.xMin) - dim.yMax); //Add epsilon to make sur that the curve respect xMin == yMin or xMin = yMax
+        m_alpha *=  ((int) type * 2 - 1); //Add sign in function of desired inflexion
     }
     
     public override void sendDataToShader(Material mat)
     {
         base.sendDataToShader(mat);
-        mat.SetFloat("_A", m_a);
+        //mat.SetFloat("_A", m_a); //A is same as K
         mat.SetFloat("_B", m_b);
         mat.SetFloat("_Kp", m_kprime);
         mat.SetFloat("_K", m_k);
@@ -42,8 +45,13 @@ public class HyperbolicTangeante : Function
     
     public override float image(float x)
     {
+        //Constants is based on rect located on the origin. Avoid float imprecision with large xMin and yMin values.
+        //Also allow use to base shader on origin (avoid to send minX and minY)
+        x -= m_dim.xMin;
+        
         float exp =  Mathf.Exp(m_alpha * m_k * (x - m_b));
-        return m_a + m_kprime * (1 - exp) / (1 + exp);
+        //A is same as K for rect on origine
+        return m_dim.yMin + m_k + m_kprime * (1 - exp) / (1 + exp);
     }
 
     public override float derivative(float x, int n)
@@ -56,11 +64,13 @@ public class HyperbolicTangeante : Function
                 return image(x);
             case 1:
             {
+                x -= m_dim.xMin;
                 float expVal = Mathf.Exp(m_k * m_alpha * (x - m_b));
                 return m_kprime * -2 * m_k * m_alpha * expVal / ((1 + expVal) * (1 + expVal));
             }
             case 2:
             {
+                x -= m_dim.xMin;
                 //d for derivative. Expression bollow with b / a^2
                 float expVal = Mathf.Exp(m_k * m_alpha * (x - m_b));
                 float a = 1 + expVal;

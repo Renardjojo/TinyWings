@@ -23,8 +23,11 @@ public abstract class Function
 
     public virtual void sendDataToShader(Material mat)
     {
-        Assert.IsTrue(mat.HasProperty("_Dim"));
-        mat.SetVector("_Dim", new Vector4(m_dim.xMin, m_dim.yMin, m_dim.xMax, m_dim.yMax));
+        Assert.IsTrue(mat.HasProperty("_Width"));
+        mat.SetFloat("_Width", m_dim.width);
+
+        Assert.IsTrue(mat.HasProperty("_Height"));
+        mat.SetFloat("_Height", m_dim.height);        
     }
     
     public abstract float image(float x);

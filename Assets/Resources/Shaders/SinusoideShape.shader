@@ -2,7 +2,8 @@
 {
     Properties
     {
-        _Dim ("Dim", Vector) = (0,0,0,0)
+        _Height ("Height", float) = 0
+        _Width ("Width", float) = 0
         _Color ("Color", Color) = (1,0,0,1)
         _Amplitude ("Amplitude", float) = 0
         _VOffset ("VOffset", float) = 0
@@ -37,7 +38,8 @@
                 float4 vertex : SV_POSITION;
             };
 
-            float4 _Dim;
+            float _Height;
+            float _Width;
             fixed4 _Color;
             fixed _Amplitude;
             fixed _VOffset;
@@ -68,11 +70,8 @@
             float2 localToGlobalUVInRect(fixed2 uv)
             {
                 float2 pt = uv;
-                pt.x *= _Dim.z - _Dim.x;
-                pt.y *= _Dim.w - _Dim.y;
-                
-                pt.x += _Dim.x;
-                pt.y += _Dim.y;
+                pt.x *= _Width;
+                pt.y *= _Height;
                 
                 return pt;
             }
