@@ -13,12 +13,21 @@ public enum EType
     COUNT
 }
 
+public enum EChunkType
+{
+    NONE,
+    SUGAR,
+    GIFT,
+    COUNT
+}
+
 [ExecuteInEditMode]
 public class Chunk : MonoBehaviour
 {
     private Vector2[] m_points;
-    [SerializeField] private Material m_Material;
+    private Material m_Material;
     public EType m_functionType; // only for display in editor
+    public EChunkType m_chunkType;
     public EInflexionType m_inflexionType;
     public Rect m_dimension;
     public Function m_funct;
@@ -28,11 +37,15 @@ public class Chunk : MonoBehaviour
     public Material m_PolynomeMat;
     public Material m_EllipticMat;
 
+    public GameObject m_BarleySugarPrefab;
+    public GameObject m_GiftPrefab;
+
     Transform m_surface;
     Transform m_ground;
 
-    private const int m_resolution = 20; // represente the number of chunk inside width of function
-    private const int m_pointCount = 50; //must be pair 
+    [Header("Settings")]
+    [SerializeField] protected const int m_resolution = 20; // represente the number of chunk inside width of function
+    [SerializeField] protected const int m_pointCount = 50; //must be pair 
     
     void Awake()
     {
@@ -107,7 +120,7 @@ public class Chunk : MonoBehaviour
         return points;
     }
 
-    public void Apply(EType functionType, EInflexionType inflexionType, Rect dim)
+    public void Apply(EType functionType, EInflexionType inflexionType, Rect dim, EChunkType chunkType = EChunkType.NONE)
     {
         m_functionType = functionType;
         m_inflexionType = inflexionType;
@@ -152,6 +165,34 @@ public class Chunk : MonoBehaviour
         
         //Generate points :
         m_points = generatePoints().ToArray();
+
+        switch (chunkType)
+        {
+            case EChunkType.NONE:
+                break;
+            case EChunkType.SUGAR:
+                addGameObjectOnChunkInStep(m_BarleySugarPrefab, Random.Range(2, 10));
+                break;
+            case EChunkType.GIFT:
+                addGameObjectOnChunkInStep(m_GiftPrefab, Random.Range(2, 10));
+                break;
+            case EChunkType.COUNT:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(chunkType), chunkType, null);
+        }
+    }
+
+    void addGameObjectOnChunkInStep(GameObject prefab, int step)
+    {
+        for (int i = 0; i < step; ++i)
+        {
+            GameObject GO = Instantiate(prefab);
+            GO.transform.SetParent(transform);
+            GO.transform.up = m_funct.normal(m_dimension.xMin + i * m_dimension.width / step);
+            GO.transform.position = new Vector3(m_dimension.xMin + i * m_dimension.width / step, m_funct.image(m_dimension.xMin + i * m_dimension.width / step), 0f);
+            GO.transform.Translate( new Vector3(0f, GO.transform.localScale.y * GO.GetComponent<SpriteRenderer>().sprite.bounds.size.y / 2f, 0f), Space.Self);
+        }
     }
 
     // Update is called once per frame

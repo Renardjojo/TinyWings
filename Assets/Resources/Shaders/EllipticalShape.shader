@@ -62,14 +62,15 @@
 
             float computeElliptic(float x)
             {
-                if (x < = (XMax - XMin) / 2f + XMin)
+/*                if (x < = (XMax - XMin) / 2f + XMin)
                 {
                     
                 }
                 else
                 {
                     
-                }
+                }*/
+                return 0.0f;
             }
 
             float IsPointInsideFuntion(float2 pt, float transitionHalfWidth = .005)

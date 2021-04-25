@@ -48,6 +48,7 @@ public class WorldGenerator : MonoBehaviour
 
         EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
         EType functionType = (EType)Random.Range(0, (int)EType.ELLIPTIC);
+        EChunkType chunkType = (EChunkType)Random.Range(0, (int)EChunkType.COUNT);
 
         if (inflexionType == EInflexionType.DESCANDANTE)
         {
@@ -61,7 +62,7 @@ public class WorldGenerator : MonoBehaviour
 
         Assert.IsNotNull(chunk, "chunk component not found");
 
-        chunk.Apply(functionType, inflexionType, dimension);
+        chunk.Apply(functionType, inflexionType, dimension, chunkType);
         chunks.Add(chunk);
     }
 
