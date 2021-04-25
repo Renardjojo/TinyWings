@@ -151,7 +151,7 @@ public class Chunk : MonoBehaviour
 
             case EType.ELLIPTIC:
                 m_funct = new Elliptical(m_dimension, inflexionType);
-                m_surface.GetComponent<MeshRenderer>().material = new Material(m_EllipticMat);
+                //m_surface.GetComponent<MeshRenderer>().material = new Material(m_EllipticMat);
                 break;
 
             default:
