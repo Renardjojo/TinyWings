@@ -26,7 +26,8 @@ public class Chunk : MonoBehaviour
     public Material m_TanHMat;
     public Material m_SinMat;
     public Material m_PolynomeMat;
-    
+    public Material m_EllipticMat;
+
     Transform m_surface;
     Transform m_ground;
     Transform m_sky;
@@ -143,6 +144,7 @@ public class Chunk : MonoBehaviour
 
             case EType.ELLIPTIC:
                 m_funct = new Elliptical(m_dimension, inflexionType);
+                m_surface.GetComponent<MeshRenderer>().material = new Material(m_EllipticMat);
                 break;
 
             default:
