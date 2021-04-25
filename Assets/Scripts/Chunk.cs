@@ -146,7 +146,9 @@ public class Chunk : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
         
+        
         m_Material = m_surface.GetComponent<MeshRenderer>().material;
+        m_funct.sendDataToShader(m_Material);
         
         //Generate points :
         m_points = generatePoints().ToArray();
@@ -163,6 +165,5 @@ public class Chunk : MonoBehaviour
             Debug.DrawLine(new Vector3(point.x, point.y), new Vector3(point.x, point.y) + new Vector3(m_funct.tangeante(point.x).x, m_funct.tangeante(point.x).y) * 10f, Color.red);
         }
         */
-        m_funct.sendDataToShader(m_Material);
     }
 }
