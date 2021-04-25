@@ -23,8 +23,11 @@ public abstract class Function
 
     public virtual void sendDataToShader(Material mat)
     {
-        Assert.IsTrue(mat.HasProperty("_Dim"));
-        mat.SetVector("_Dim", new Vector4(m_dim.xMin, m_dim.yMin, m_dim.xMax, m_dim.yMax));
+        Assert.IsTrue(mat.HasProperty("_Width"));
+        mat.SetFloat("_Width", m_dim.width);
+
+        Assert.IsTrue(mat.HasProperty("_Height"));
+        mat.SetFloat("_Height", m_dim.height);        
     }
     
     public abstract float image(float x);
@@ -79,5 +82,10 @@ public abstract class Function
     public static float map(float v, float min1, float max1, float min2, float max2)
     {
         return min2 + (v- min1)*(max2-min2)/(max1 - min1);
+    }
+
+    public bool IsPointBellow(Vector2 pt)
+    {
+        return image(pt.x) > pt.y;
     }
 }

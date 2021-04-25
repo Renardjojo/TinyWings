@@ -2,9 +2,10 @@
 {
     Properties
     {
-        _Dim ("Dim", Vector) = (0,0,0,0)
+        _Height ("Height", float) = 0
+        _Width ("Width", float) = 0
         _Color ("Color", Color) = (1,0,0,1)
-        _A ("A", float) = 0
+        //_A ("A", float) = 0 // //A is same as K for rect on origine
         _B ("B", float) = 0
         _Kp ("Kp", float) = 0
         _K ("K", float) = 0
@@ -37,9 +38,10 @@
                 float4 vertex : SV_POSITION;
             };
 
-            float4 _Dim;
+            float _Height;
+            float _Width;
             fixed4 _Color;
-            float _A;
+            //float _A; //A is same as K for rect on origine
             float _B;
             float _Kp;
             float _K;
@@ -61,17 +63,15 @@
             float IsPtInsideFunction(float2 pt, float transitionHalfWidth = .005)
             {                        
                 float exponential =  exp(_Alpha * _K * (pt.x - _B));  
-                return smoothstep(pt.y - transitionHalfWidth, pt.y + transitionHalfWidth, _A + _Kp * (1 - exponential) / (1 + exponential));
+                //A is same as K for rect on origin
+                return smoothstep(pt.y - transitionHalfWidth, pt.y + transitionHalfWidth, _K + _Kp * (1 - exponential) / (1 + exponential));
             }
             
             float2 localToGlobalUVInRect(float2 uv)
             {
                 float2 pt = uv;
-                pt.x *= _Dim.z - _Dim.x;
-                pt.y *= _Dim.w - _Dim.y;
-                
-                pt.x += _Dim.x;
-                pt.y += _Dim.y;
+                pt.x *= _Width;
+                pt.y *= _Height;
                 
                 return pt;
             }

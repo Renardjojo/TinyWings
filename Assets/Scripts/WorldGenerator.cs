@@ -20,6 +20,7 @@ public class WorldGenerator : MonoBehaviour
 
     public float cameraGenerationAnticipationFactor = 2f;
     public float cameraDestructionAnticipationFactor = 2f;
+    [Range(0f, 1f)] public float m_frictionCoef = 0.2f;
 
     void Awake()
     {
@@ -29,9 +30,12 @@ public class WorldGenerator : MonoBehaviour
     void Start()
     {
         GenerateRandomChunks();
-
+        
         if (Application.isMobilePlatform)
-            QualitySettings.vSyncCount = 0;
+        {
+            QualitySettings.vSyncCount = 1;
+            Application.targetFrameRate = 60;
+        }
     }
     
     private void GenerateRandomChunks()
@@ -42,10 +46,8 @@ public class WorldGenerator : MonoBehaviour
         float height = Random.Range(vScale.x, vScale.y);
         float width = Random.Range(hScale.x, hScale.y);
 
-        //EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
-        // EType fuctionType = (EType)Random.Range(0, (int)EType.COUNT);
-        EType fuctionType = EType.ELLIPTIC;
-        EInflexionType inflexionType = EInflexionType.DESCANDANTE;
+        EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
+        EType functionType = (EType)Random.Range(0, (int)EType.ELLIPTIC);
 
         if (inflexionType == EInflexionType.DESCANDANTE)
         {
@@ -59,8 +61,19 @@ public class WorldGenerator : MonoBehaviour
 
         Assert.IsNotNull(chunk, "chunk component not found");
 
-        chunk.Apply(fuctionType, inflexionType, dimension);
+        chunk.Apply(functionType, inflexionType, dimension);
         chunks.Add(chunk);
+    }
+
+    public Chunk getChunkOnX(float x)
+    {
+        foreach (var chunk in chunks)
+        {
+            if (chunk.m_dimension.xMin < x && x < chunk.m_dimension.xMax)
+                return chunk;
+        }
+
+        return null;
     }
 
     void Update()

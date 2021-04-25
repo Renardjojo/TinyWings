@@ -13,7 +13,7 @@ public enum EType
     COUNT
 }
 
-[ExecuteInEditMode ,RequireComponent(typeof(EdgeCollider2D))]
+[ExecuteInEditMode]
 public class Chunk : MonoBehaviour
 {
     private Vector2[] m_points;
@@ -21,7 +21,7 @@ public class Chunk : MonoBehaviour
     public EType m_functionType; // only for display in editor
     public EInflexionType m_inflexionType;
     public Rect m_dimension;
-    private Function m_funct;
+    public Function m_funct;
 
     public Material m_TanHMat;
     public Material m_SinMat;
@@ -30,7 +30,6 @@ public class Chunk : MonoBehaviour
 
     Transform m_surface;
     Transform m_ground;
-    Transform m_sky;
 
     private const int m_resolution = 20; // represente the number of chunk inside width of function
     private const int m_pointCount = 50; //must be pair 
@@ -39,7 +38,6 @@ public class Chunk : MonoBehaviour
     {
         m_surface = transform.Find("Surface");
         m_ground = transform.Find("Ground");
-        m_sky = transform.Find("Sky");
 
         m_Material = m_surface.GetComponent<MeshRenderer>().material;
     }
@@ -121,9 +119,6 @@ public class Chunk : MonoBehaviour
         m_ground.position = new Vector3(m_dimension.x + m_dimension.width / 2, m_surface.position.y - m_ground.localScale.y / 2 - m_surface.localScale.y / 2, 0);
         m_ground.localScale = new Vector3(m_dimension.width, m_ground.localScale.y, 0);
         
-        m_sky.position  = new Vector3(m_dimension.x + m_dimension.width / 2, m_surface.position.y + m_sky.localScale.y / 2 - m_surface.localScale.y / 2, 0);
-        m_sky.localScale = new Vector3(m_dimension.width, m_sky.localScale.y, 0);
-        
         //Create function and compute constantes
         switch (functionType)
         {
@@ -155,7 +150,6 @@ public class Chunk : MonoBehaviour
         
         //Generate points :
         m_points = generatePoints().ToArray();
-        GetComponent<EdgeCollider2D>().points = m_points;
     }
 
     // Update is called once per frame
