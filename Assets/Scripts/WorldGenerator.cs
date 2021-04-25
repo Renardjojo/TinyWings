@@ -60,6 +60,7 @@ public class WorldGenerator : MonoBehaviour
         Rect dimension = new Rect( offsetX, offsetY, width, height);
         
         GameObject chunkGO = Instantiate(chunkPrefab);
+        chunkGO.transform.SetParent(transform);
         Chunk chunk = chunkGO.GetComponent<Chunk>();
 
         Assert.IsNotNull(chunk, "chunk component not found");

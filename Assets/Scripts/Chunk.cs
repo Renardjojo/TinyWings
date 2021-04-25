@@ -17,29 +17,28 @@ public enum EType
 public class Chunk : MonoBehaviour
 {
     private Vector2[] m_points;
-    [SerializeField] private Material m_Material;
+    private Material m_Material;
     public EType m_functionType; // only for display in editor
     public EInflexionType m_inflexionType;
     public Rect m_dimension;
     public Function m_funct;
+    
+    public GameObject m_surfacePrefab;
+    public GameObject m_groundPrefab;
 
     public Material m_TanHMat;
     public Material m_SinMat;
     public Material m_PolynomeMat;
     public Material m_EllipticMat;
-
-    Transform m_surface;
-    Transform m_ground;
-
-    private const int m_resolution = 20; // represente the number of chunk inside width of function
-    private const int m_pointCount = 50; //must be pair 
+    
+    [Header("Setting")]
+    [SerializeField] private const int m_groundVerticalSize = 10000;
+    [SerializeField] private const int m_resolution = 20; // represente the number of chunk inside width of function
+    [SerializeField] private const int m_pointCount = 50; //must be pair 
     
     void Awake()
     {
-        m_surface = transform.Find("Surface");
-        m_ground = transform.Find("Ground");
-
-        m_Material = m_surface.GetComponent<MeshRenderer>().material;
+        //m_Material = m_surface.GetComponent<MeshRenderer>().material;
     }
     
     List<Vector2> generatePoints()
@@ -103,7 +102,26 @@ public class Chunk : MonoBehaviour
             rest = currentPointDensity - (int)currentPointDensity; //if currentPointDensity == 3.5 rest == 0.5
         }
         points.Add(new Vector2(m_dimension.xMax, m_inflexionType == EInflexionType.ASCENDANTE ? m_dimension.yMax :  m_dimension.yMin));
-
+        
+        for (int i = 0; i < points.Count - 1; i++)
+        {
+            GameObject surfaceGO = Instantiate(m_surfacePrefab);
+            surfaceGO.transform.SetParent(transform);
+            surfaceGO.transform.localScale = new Vector3(points[i + 1].x - points[i].x, points[i + 1].y - points[i].y,0f);
+            surfaceGO.transform.position = new Vector3(points[i].x + surfaceGO.transform.localScale.x / 2f, points[i].y + surfaceGO.transform.localScale.y / 2f,0f);
+            
+            surfaceGO.GetComponent<MeshRenderer>().material.SetVector("_Segment", new Vector4(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y));
+            
+            GameObject groundGO = Instantiate(m_groundPrefab);
+            groundGO.transform.SetParent(transform);
+            groundGO.transform.localScale = new Vector3(surfaceGO.transform.localScale.x, m_groundVerticalSize,0f);
+            
+            if (m_inflexionType == EInflexionType.ASCENDANTE)
+                groundGO.transform.position = new Vector3(surfaceGO.transform.position.x, surfaceGO.transform.position.y - surfaceGO.transform.localScale.y / 2f - m_groundVerticalSize / 2f,0f);
+            else
+                groundGO.transform.position = new Vector3(surfaceGO.transform.position.x, surfaceGO.transform.position.y + surfaceGO.transform.localScale.y / 2f - m_groundVerticalSize / 2f,0f);
+        }
+        
         return points;
     }
 
@@ -113,40 +131,34 @@ public class Chunk : MonoBehaviour
         m_inflexionType = inflexionType;
         m_dimension = dim;
         
-        m_surface.position = new Vector3(m_dimension.x + m_dimension.width / 2, m_dimension.y + m_dimension.height / 2, 0);
-        m_surface.localScale = new Vector3(m_dimension.width, m_dimension.height, 0);
-        
-        m_ground.position = new Vector3(m_dimension.x + m_dimension.width / 2, m_surface.position.y - m_ground.localScale.y / 2 - m_surface.localScale.y / 2, 0);
-        m_ground.localScale = new Vector3(m_dimension.width, m_ground.localScale.y, 0);
-        
         //Create function and compute constantes
         switch (functionType)
         {
             case EType.SINUSOIDE:
                 m_funct = new Sinusoide(m_dimension, inflexionType, Random.Range(1, 11));
-                m_surface.GetComponent<MeshRenderer>().material = new Material(m_SinMat);
+               // m_surface.GetComponent<MeshRenderer>().material = new Material(m_SinMat);
                 break;
             
             case EType.POLYNOME:
                 m_funct = new Polynome(m_dimension, inflexionType);
-                m_surface.GetComponent<MeshRenderer>().material = new Material(m_PolynomeMat);
+               // m_surface.GetComponent<MeshRenderer>().material = new Material(m_PolynomeMat);
                 break;
             
             case EType.HYPBERBOLIC_TAN:
                 m_funct = new HyperbolicTangeante(m_dimension, inflexionType);
-                m_surface.GetComponent<MeshRenderer>().material = new Material(m_TanHMat);
+                //m_surface.GetComponent<MeshRenderer>().material = new Material(m_TanHMat);
                 break;
 
             case EType.ELLIPTIC:
                 m_funct = new Elliptical(m_dimension, inflexionType);
-                m_surface.GetComponent<MeshRenderer>().material = new Material(m_EllipticMat);
+                //m_surface.GetComponent<MeshRenderer>().material = new Material(m_EllipticMat);
                 break;
 
             default:
                 throw new ArgumentOutOfRangeException();
         }
         
-        m_Material = m_surface.GetComponent<MeshRenderer>().material;
+        //m_Material = m_surface.GetComponent<MeshRenderer>().material;
         
         //Generate points :
         m_points = generatePoints().ToArray();
@@ -156,13 +168,13 @@ public class Chunk : MonoBehaviour
     void Update()
     {
         // uncomment to test normal and tangeante
-        
+        /*
         foreach (var point in m_points)
         {
             Debug.DrawLine(new Vector3(point.x, point.y), new Vector3(point.x, point.y) + new Vector3(m_funct.normal(point.x).x, m_funct.normal(point.x).y) * 10f, Color.blue);
             Debug.DrawLine(new Vector3(point.x, point.y), new Vector3(point.x, point.y) + new Vector3(m_funct.tangeante(point.x).x, m_funct.tangeante(point.x).y) * 10f, Color.red);
         }
-        
-        m_funct.sendDataToShader(m_Material);
+        */
+        //m_funct.sendDataToShader(m_Material);
     }
 }
