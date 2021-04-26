@@ -116,7 +116,7 @@ public class Chunk : MonoBehaviour
             rest = currentPointDensity - (int)currentPointDensity; //if currentPointDensity == 3.5 rest == 0.5
         }
         points.Add(new Vector2(m_dimension.xMax, m_inflexionType == EInflexionType.ASCENDANTE ? m_dimension.yMax :  m_dimension.yMin));
-
+        
         return points;
     }
 
@@ -137,22 +137,22 @@ public class Chunk : MonoBehaviour
         {
             case EType.SINUSOIDE:
                 m_funct = new Sinusoide(m_dimension, inflexionType, Random.Range(1, 11));
-                m_surface.GetComponent<MeshRenderer>().material = new Material(m_SinMat);
+                //m_surface.GetComponent<MeshRenderer>().material = new Material(m_SinMat);
                 break;
             
             case EType.POLYNOME:
                 m_funct = new Polynome(m_dimension, inflexionType);
-                m_surface.GetComponent<MeshRenderer>().material = new Material(m_PolynomeMat);
+                //m_surface.GetComponent<MeshRenderer>().material = new Material(m_PolynomeMat);
                 break;
             
             case EType.HYPBERBOLIC_TAN:
                 m_funct = new HyperbolicTangeante(m_dimension, inflexionType);
-                m_surface.GetComponent<MeshRenderer>().material = new Material(m_TanHMat);
+                //m_surface.GetComponent<MeshRenderer>().material = new Material(m_TanHMat);
                 break;
 
             case EType.ELLIPTIC:
                 m_funct = new Elliptical(m_dimension, inflexionType);
-                m_surface.GetComponent<MeshRenderer>().material = new Material(m_EllipticMat);
+                //m_surface.GetComponent<MeshRenderer>().material = new Material(m_EllipticMat);
                 break;
 
             default:
@@ -161,7 +161,17 @@ public class Chunk : MonoBehaviour
         
         
         m_Material = m_surface.GetComponent<MeshRenderer>().material;
-        m_funct.sendDataToShader(m_Material);
+        float[] heigthMap = new float[512];
+        float xStep = m_dimension.width / 512f;
+        for (int i = 0; i < heigthMap.Length; ++i)
+        {
+            heigthMap[i] = - m_dimension.yMin + m_funct.image(m_dimension.xMin + i * xStep);
+        }
+
+        m_Material.SetFloat("_Height", m_dimension.height);
+        m_Material.SetFloatArray("_HeightMap", heigthMap);
+        
+        //m_funct.sendDataToShader(m_Material);
         
         //Generate points :
         m_points = generatePoints().ToArray();

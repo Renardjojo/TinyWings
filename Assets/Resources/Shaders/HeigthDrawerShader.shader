@@ -1,11 +1,12 @@
-﻿Shader "Custom/ColorOnly"
+﻿Shader "Custom/HeigthDrawerShader"
 {
 	Properties
 	{
-		_Color("Color", Color) = (0.37, 0.52, 0.73, 0)
+		_Color("Color", Color) = (0.37, 0.52, 0.73, 1)
+		_Height("Height", Float) = 0.0
 	}
 		SubShader
-	{
+    {
         Tags { "Queue"="Transparent" "RenderType"="Transparent" "IgnoreProjector"="True" }
         LOD 100
       
@@ -30,7 +31,9 @@
 				float3 uv : TEXCOORD0;
 			};
 
-			fixed3 _Color;
+			fixed4 _Color;
+			float _HeightMap[512];
+			float _Height;
 
 			v2f vert(appdata v)
 			{
@@ -42,7 +45,7 @@
 
 			fixed4 frag(v2f i) : COLOR
 			{
-                return fixed4(_Color, 1.0f);
+                return _Color * step(i.uv.y * _Height, _HeightMap[i.uv.x * 512]);
 			}
 			ENDCG
 		}
