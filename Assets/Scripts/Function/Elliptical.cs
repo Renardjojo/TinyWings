@@ -16,7 +16,6 @@ public class Elliptical : Function
     public override void sendDataToShader(Material mat)
     {
         base.sendDataToShader(mat);
-        mat.SetVector("_Dim", new Vector4(m_dim.xMin, m_dim.yMin, m_dim.xMax, m_dim.yMax));
         mat.SetFloat("_XMin", m_dim.xMin);
         mat.SetFloat("_XMax", m_dim.xMax);
         mat.SetFloat("_YMin", m_dim.yMin);

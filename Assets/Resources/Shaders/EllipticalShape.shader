@@ -92,8 +92,8 @@
             }
 
             float2 localToGlobalUVInRect(fixed2 uv)
-            {
-                return float2(uv.x * _Width, uv.y * _Height);
+            {                
+                return float2(uv.x * _Width + _XMin, uv.y * _Height + _YMin);
             }
 
             fixed4 ComputeCurveColor(fixed2 pt)
