@@ -54,8 +54,7 @@ public class Polynome : Function
         // Version without (Cost of power is not negligeable)
         // return m_a * Mathf.Pow(x,3) + m_b * Mathf.Pow(x, 2) + m_c * x + m_d;
     }
-
-
+    
     // For -3x^2 + 2x + 8 do :
     // float[] coefs = new float[3];
     // coefs[0] = -3;

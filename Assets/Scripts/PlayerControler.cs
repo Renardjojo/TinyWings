@@ -17,12 +17,13 @@ public class PlayerControler : MonoBehaviour
     
     //UI
     [SerializeField] private TextFloatLink FPS;
-    [SerializeField] private TextFloatLink S;
-    [SerializeField] private TextFloatLink MS;
-    [SerializeField] private TextFloatLink V;
-    [SerializeField] private TextFloatLink MV;
+    [SerializeField] private TextFloatLink SpeedText;
+    [SerializeField] private TextFloatLink BestSpeed;
+    [SerializeField] private TextFloatLink ChronoText;
+    [SerializeField] private TextFloatLink BestDistanceText;
+    [SerializeField] private TextFloatLink DistanceText;
 
-    private float s = 0, ms = 0, v = 0, mv = 0;
+    private float Speed = 0, BestSpeeed = 0, Chrono = 0, BestDistance = 0;
     
     int framesPassed = 0;
     float fpsTotal = 0f;
@@ -32,14 +33,11 @@ public class PlayerControler : MonoBehaviour
     
     public float velocityZoomFactor = 0.5f;
 
-    /* Public Variables */
-    public float FPSDisplayfrequency = 0.25f;
-
     // Start is called before the first frame update
     void Awake()
     {
-        ms = PlayerPrefs.GetFloat("MS", 0);
-        mv = PlayerPrefs.GetFloat("MV", 0);
+        BestSpeeed = PlayerPrefs.GetFloat("BestSpeed", 0);
+        BestDistance = PlayerPrefs.GetFloat("BestDistance", 0);
         m_rigid = GetComponent<MyRigidbody>();
     }
 
@@ -47,12 +45,15 @@ public class PlayerControler : MonoBehaviour
     {
         minZCameraPos = vcam.m_Lens.OrthographicSize;
 
-        MS.SetTextWithRoundFloat(ms);
-        MV.SetTextWithRoundFloat(mv);
+        BestSpeed.SetTextWithRoundFloat(BestSpeeed);
+        BestDistanceText.SetTextWithRoundFloat(BestDistance, 0);
     }
 
     void Update()
     {
+        Chrono += Time.deltaTime;
+        ChronoText.SetTextWithRoundFloat(Chrono, 3);
+        
         Zoom();
 
         fpsTotal += 1 / Time.unscaledDeltaTime;
@@ -63,29 +64,28 @@ public class PlayerControler : MonoBehaviour
 
     private void Zoom()
     {
-        vcam.m_Lens.OrthographicSize = Mathf.Lerp(vcam.m_Lens.OrthographicSize, minZCameraPos + s * velocityZoomFactor, Time.deltaTime);
+        vcam.m_Lens.OrthographicSize = Mathf.Lerp(vcam.m_Lens.OrthographicSize, minZCameraPos + Speed * velocityZoomFactor, Time.deltaTime);
     }
 
     void FixedUpdate()
     {
-        s = m_rigid.m_velocity.magnitude;
-        v = transform.position.y;
+        Speed = m_rigid.m_velocity.magnitude;
+
+        SpeedText.SetTextWithRoundFloat(Speed);
+        DistanceText.SetTextWithRoundFloat(transform.position.x, 0);
         
-        S.SetTextWithRoundFloat(s);
-        V.SetTextWithRoundFloat(v);
-        
-        if (ms < s)
+        if (BestSpeeed < Speed)
         {
-            ms = s;
-            MS.SetTextWithRoundFloat(ms);
-            PlayerPrefs.SetFloat("MS", ms);
+            BestSpeeed = Speed;
+            BestSpeed.SetTextWithRoundFloat(BestSpeeed);
+            PlayerPrefs.SetFloat("BestSpeed", BestSpeeed);
         }
         
-        if (mv < v)
+        if (BestDistance < transform.position.x)
         {
-            mv = v;
-            MV.SetTextWithRoundFloat(mv);
-            PlayerPrefs.SetFloat("MV", mv);
+            BestDistance = transform.position.x;
+            BestDistanceText.SetTextWithRoundFloat(BestDistance, 0);
+            PlayerPrefs.SetFloat("BestDistance", BestDistance);
         }
         
         if ((Input.touchCount > 0 || Input.GetKey(KeyCode.Space)) && m_rigid.m_isGrounded)

@@ -12,9 +12,9 @@ public class TextFloatLink : MonoBehaviour
         m_text = GetComponent<Text>();
     }
 
-    public void SetTextWithRoundFloat (float value)
+    public void SetTextWithRoundFloat (float value, int prescision = 1)
     {
-        m_text.text = System.Math.Round(value, 1).ToString();
+        m_text.text = System.Math.Round(value, prescision).ToString();
     }
     
     public void SetTextWithFloat (float value)
