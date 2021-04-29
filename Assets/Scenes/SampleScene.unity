@@ -542,7 +542,7 @@ RectTransform:
   - {fileID: 1304626213}
   - {fileID: 332805262}
   m_Father: {fileID: 2067077165}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -880,7 +880,7 @@ RectTransform:
   - {fileID: 1890243098}
   - {fileID: 51698732}
   m_Father: {fileID: 2067077165}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1024,7 +1024,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846186100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.6463985, y: 22.36, z: -10}
+  m_LocalPosition: {x: 6.547437, y: 22.36, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1327,7 +1327,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1134749330}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.6463985, y: 22.36, z: -10}
+  m_LocalPosition: {x: 6.547437, y: 22.36, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 778867337}
@@ -2089,8 +2089,8 @@ RectTransform:
   - {fileID: 1523171145}
   - {fileID: 1890658654}
   - {fileID: 1206946285}
-  - {fileID: 819512149}
   - {fileID: 549748717}
+  - {fileID: 819512149}
   m_Father: {fileID: 398856246}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2298,6 +2298,31 @@ PrefabInstance:
       propertyPath: m_thrust
       value: 30000
       objectReference: {fileID: 0}
+    - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
+        type: 3}
+      propertyPath: BestSpeed
+      value: 
+      objectReference: {fileID: 796186902}
+    - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
+        type: 3}
+      propertyPath: SpeedText
+      value: 
+      objectReference: {fileID: 288611391}
+    - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
+        type: 3}
+      propertyPath: ChronoText
+      value: 
+      objectReference: {fileID: 51698733}
+    - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
+        type: 3}
+      propertyPath: DistanceText
+      value: 
+      objectReference: {fileID: 332805263}
+    - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
+        type: 3}
+      propertyPath: BestDistanceText
+      value: 
+      objectReference: {fileID: 597568808}
     - target: {fileID: 7941140963871348856, guid: fc681833aef4411438c1cc26d9ab392f,
         type: 3}
       propertyPath: velocityZoomFactor

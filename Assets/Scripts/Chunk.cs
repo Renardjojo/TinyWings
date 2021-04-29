@@ -18,6 +18,7 @@ public enum EChunkType
     NONE,
     SUGAR,
     GIFT,
+    FOREST,
     COUNT
 }
 
@@ -39,6 +40,7 @@ public class Chunk : MonoBehaviour
 
     public GameObject m_BarleySugarPrefab;
     public GameObject m_GiftPrefab;
+    public GameObject m_TreePrefab;
 
     Transform m_surface;
     Transform m_ground;
@@ -174,7 +176,10 @@ public class Chunk : MonoBehaviour
                 addGameObjectOnChunkInStep(m_BarleySugarPrefab, Random.Range(2, 10));
                 break;
             case EChunkType.GIFT:
-                addGameObjectOnChunkInStep(m_GiftPrefab, Random.Range(2, 10));
+                addGameObjectOnChunkInStep(m_GiftPrefab, Random.Range(2, 4));
+                break;
+            case EChunkType.FOREST:
+                addGameObjectOnChunkInStep(m_TreePrefab, Random.Range(6, 10));
                 break;
             case EChunkType.COUNT:
                 break;

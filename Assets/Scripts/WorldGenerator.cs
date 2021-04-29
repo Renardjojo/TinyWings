@@ -29,7 +29,7 @@ public class WorldGenerator : MonoBehaviour
 
     void Start()
     {
-        GenerateRandomChunks();
+        GenerateChunks(EInflexionType.DESCANDANTE, (EType)Random.Range(0, (int)EType.POLYNOME), (EChunkType)Random.Range(0, (int)EChunkType.COUNT));
         
         if (Application.isMobilePlatform)
         {
@@ -38,17 +38,13 @@ public class WorldGenerator : MonoBehaviour
         }
     }
     
-    private void GenerateRandomChunks()
+    private void GenerateChunks(EInflexionType inflexionType, EType functionType, EChunkType chunkType)
     {
         float offsetX = chunks.Count > 0 ? chunks.Last().m_dimension.xMax : 0f;
         float offsetY = chunks.Count > 0 ? (chunks.Last().m_inflexionType == EInflexionType.DESCANDANTE ? chunks.Last().m_dimension.yMin : chunks.Last().m_dimension.yMax) : 0f;
         
         float height = Random.Range(vScale.x, vScale.y);
         float width = Random.Range(hScale.x, hScale.y);
-
-        EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
-        EType functionType = EType.POLYNOME;//(EType)Random.Range(0, (int)EType.POLYNOME);
-        EChunkType chunkType = (EChunkType)Random.Range(0, (int)EChunkType.COUNT);
 
         if (inflexionType == EInflexionType.DESCANDANTE)
         {
@@ -80,9 +76,9 @@ public class WorldGenerator : MonoBehaviour
     void Update()
     {
         //Add chunk
-        while ( camera.transform.position.x + camera.m_Lens.OrthographicSize * cameraGenerationAnticipationFactor > chunks.Last().m_dimension.xMax)
+        while (camera.transform.position.x + camera.m_Lens.OrthographicSize * cameraGenerationAnticipationFactor > chunks.Last().m_dimension.xMax)
         {
-            GenerateRandomChunks();
+            GenerateChunks((EInflexionType)Random.Range(0, (int)EInflexionType.COUNT), (EType)Random.Range(0, (int)EType.POLYNOME), (EChunkType)Random.Range(0, (int)EChunkType.COUNT));
         }
         
         //Remove chunk
