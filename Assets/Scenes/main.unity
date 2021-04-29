@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_mass: 45
-  m_pensentorAcceleration: 9.81
+  m_pensentorAcceleration: 12.81
   m_force: {x: 0, y: 0}
   m_velocity: {x: 0, y: 0}
   m_collider: {fileID: 0}
@@ -1024,7 +1024,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846186100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.6463985, y: 22.36, z: -10}
+  m_LocalPosition: {x: 7.1078386, y: 22.36, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1327,7 +1327,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1134749330}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.6463985, y: 22.36, z: -10}
+  m_LocalPosition: {x: 7.1078386, y: 22.36, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 778867337}
@@ -1665,8 +1665,8 @@ MonoBehaviour:
     type: 3}
   hScale: {x: 100, y: 200}
   vScale: {x: 20, y: 80}
-  cameraGenerationAnticipationFactor: 2
-  cameraDestructionAnticipationFactor: 2
+  cameraGenerationAnticipationFactor: 4
+  cameraDestructionAnticipationFactor: 4
   m_frictionCoef: 0.2
 --- !u!4 &1384733462
 Transform:
