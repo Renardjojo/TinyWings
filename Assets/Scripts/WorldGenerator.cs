@@ -46,9 +46,12 @@ public class WorldGenerator : MonoBehaviour
         float height = Random.Range(vScale.x, vScale.y);
         float width = Random.Range(hScale.x, hScale.y);
 
-        EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
-        EType functionType = (EType)Random.Range(0, (int)EType.POLYNOME);
+        //EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
+        //EType functionType = (EType)Random.Range(0, (int)EType.COUNT);
         EChunkType chunkType = (EChunkType)Random.Range(0, (int)EChunkType.COUNT);
+
+        EType functionType = EType.ELLIPTIC;
+        EInflexionType inflexionType = EInflexionType.ASCENDANTE;
 
         if (inflexionType == EInflexionType.DESCANDANTE)
         {

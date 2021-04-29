@@ -2,6 +2,8 @@
 {
     Properties
     {
+        _Height("Height", float) = 0
+        _Width("Width", float) = 0
         _Dim("Dim", Vector) = (0,0,0,0)
         _Color("Color", Color) = (1,0,0,1)
         _XMin("XMin", float) = 0
@@ -33,7 +35,6 @@
             float _YMin;
             float _YMax;
             int _IsDesc;
-            float sqr3 = sqrt(3);
 
             struct appdata
             {
@@ -58,11 +59,9 @@
             float computeElliptic(float x)
             {
                 float vOffSet = 0.0f;
-                vOffSet = _YMax - _YMin;
+                float sqr3 = sqrt(3);
 
-                return _YMin + vOffSet * sqrt(1 - (sqr3 * (x - _XMin) / (_XMax - _XMin)) * (sqr3 * (x - _XMin) / (_XMax - _XMin)));
-
-               /* if (_IsDesc == 1)
+                if (_IsDesc == 1)
                 {
                     vOffSet = _YMax - _YMin;
 
@@ -70,7 +69,6 @@
                          return _YMin + vOffSet * sqrt(1 - pow(sqr3 * (x - _XMin) / (_XMax - _XMin), 2));
                     else
                        return _YMax - vOffSet * sqrt(1 - pow(sqr3 * (x - _XMax) / (_XMax - _XMin), 2));
-
                 }
                 else
                 {
@@ -84,7 +82,7 @@
                         vOffSet = _YMax - _YMin;
                         return _YMin + vOffSet * sqrt(1 - pow(sqr3 * (x - _XMax) / (_XMax - _XMin), 2));
                     }
-                }*/
+                }
             }
 
             float IsPointInsideFuntion(float2 pt, float transitionHalfWidth = .005)

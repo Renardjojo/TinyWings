@@ -15,7 +15,7 @@ public class Elliptical : Function
 
     public override void sendDataToShader(Material mat)
     {
-        //base.sendDataToShader(mat);
+        base.sendDataToShader(mat);
         mat.SetVector("_Dim", new Vector4(m_dim.xMin, m_dim.yMin, m_dim.xMax, m_dim.yMax));
         mat.SetFloat("_XMin", m_dim.xMin);
         mat.SetFloat("_XMax", m_dim.xMax);
@@ -31,17 +31,6 @@ public class Elliptical : Function
         else if (n == 1)
         {
             return ComputeFirstDerivate(x);
-            /*//first part of the curve
-            if (x < (m_dim.xMax - m_dim.xMin) / 2f + m_dim.xMin)
-            {
-                return 3 * (m_dim.yMax - m_dim.yMin) * (x - m_dim.xMin) /
-                    (Mathf.Pow(m_dim.xMax - m_dim.xMin, 2) * Mathf.Sqrt(1 - (3 * Mathf.Pow((x - m_dim.xMin) / (m_dim.xMax - m_dim.xMin), 2))));
-            }
-            else
-            {
-                return 3 * (m_dim.yMax - m_dim.yMin) * (x - m_dim.xMax) /
-                (Mathf.Pow(m_dim.xMax - m_dim.xMin, 2) * Mathf.Sqrt(1 - (3 * Mathf.Pow((x - m_dim.xMax) / (m_dim.xMax - m_dim.xMin), 2))));
-            }*/
         }
         else if (n == 2)
         {
