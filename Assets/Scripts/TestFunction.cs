@@ -17,15 +17,7 @@ public class TestFunction : MonoBehaviour
             Debug.LogFormat("x : {0}, y : {1}, d : {2}, d2 : {3}", x, e.image(x), e.derivative(x, 1), e.derivative(x, 2));
             x += step;
             points[i] = new Vector2(x, e.image(x));
-
-
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void OnDrawGizmos()

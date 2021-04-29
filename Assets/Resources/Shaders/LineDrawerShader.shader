@@ -2,8 +2,8 @@
 {
     Properties
     {
-        _Dim ("Dim", Vector) = (0,0,0,0)
         _Color ("Color", Color) = (1,0,0,1)
+        _Segment ("Segment", Vector) = (0,0,0,0)
     }
     SubShader
     {
@@ -31,10 +31,8 @@
                 float4 vertex : SV_POSITION;
             };
 
-            float4 _Dim;
             fixed4 _Color;
-            //uniform int _Points_Length = 0;
-            uniform float4 _Points [25]; // in float2 but contain 2 point with (x, y) = position
+            float4 _Segment;
 
             v2f vert (appdata v)
             {
@@ -43,15 +41,10 @@
                 o.uv = v.uv;
                 return o;
             }
-            
-            float SignWithBool(float boolean)
-            {
-                return boolean * 2 - 1;
-            }
            
             float2 LocalToGlobalUVInRect(float2 uv)
             {                
-                return float2(uv.x * (_Dim.z - _Dim.x) + _Dim.x, uv.y * (_Dim.w - _Dim.y) + _Dim.y);
+                return float2(uv.x * (_Segment.z - _Segment.x) + _Segment.x, uv.y * (_Segment.w - _Segment.y) + _Segment.y);
             }
             
             float GetSignedDistanceToLine(float2 linePt, float2 lineUnitDir, float2 pt)
@@ -72,17 +65,7 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float4 fragColorRst = {0.0, 0.0, 0.0, 0.0};
-                fixed2 localUV = LocalToGlobalUVInRect(i.uv);
-                
-                for (int i = 0; i < 24; i += 3)
-                {
-                    fragColorRst = IsPtBellowLine(float2(_Points[i].x, _Points[i].y), float2(_Points[i].z, _Points[i].w), localUV) *
-                                   IsPtBellowLine(float2(_Points[i].z, _Points[i].w), float2(_Points[i + 1].x, _Points[i + 1].y), localUV) * 
-                                   IsPtBellowLine(float2(_Points[i + 1].x, _Points[i + 1].y), float2(_Points[i + 1].y, _Points[i + 1].z), localUV);
-                }
-                
-                return _Color * fragColorRst;
+                return _Color * IsPtBellowLine(float2(_Segment.x, _Segment.y), float2(_Segment.z, _Segment.w), LocalToGlobalUVInRect(i.uv));
             }
             ENDCG
         }
