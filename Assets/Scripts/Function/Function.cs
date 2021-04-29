@@ -61,22 +61,35 @@ public abstract class Function
         return rst;
     }
     
-    public int Factorial(int n)
+    public static int Factorial(int n)
     {
-        if (n == 1)
+        if (n == 0)
             return 1;
 
         return n * Factorial(n - 1);
     }
     
-    public int Cbin(int n, int k)
+    public static int Cbin(int n, int k)
     {
+        Assert.IsFalse(k > n);
         int res = 1;
         for (int i = n - k + 1; i <= n; ++i)
             res *= i;
         for (int i = 2; i <= k; ++i)
             res /= i;
         return res;
+    }
+
+    public static int CPol(int k, int n)
+    {
+        if (n > k)
+            return 0;
+
+        int rst = 1;
+        while (n-- > 0)
+            rst *= k--;
+
+        return rst;
     }
     
     public static float map(float v, float min1, float max1, float min2, float max2)

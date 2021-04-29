@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 public class Polynome : Function
@@ -54,24 +55,28 @@ public class Polynome : Function
         // return m_a * Mathf.Pow(x,3) + m_b * Mathf.Pow(x, 2) + m_c * x + m_d;
     }
 
+
+    // For -3x^2 + 2x + 8 do :
+    // float[] coefs = new float[3];
+    // coefs[0] = -3;
+    // coefs[1] = 2;
+    // coefs[2] = 8;
+    //n is the order of derivative
+    public static float derivativeGen(float x, int n, float[] coefs)
+    {
+        float rst = CPol(coefs.Length - 1, n) * coefs.First();
+
+        for (int i = 0; i < coefs.Length - 1 - n; i++)
+        {
+            rst = rst * x + CPol(coefs.Length - i - 2, n) * coefs[i + 1];
+        }
+
+        return rst;
+    }
+
     public override float derivative(float x, int n)
     {
         Assert.IsTrue(n > 0 && n < 4);
-
-        switch (n)
-        {
-            case 0:
-                return image(x);
-            case 1:
-                x -= m_dim.xMin;
-                return (3f * m_a * x + 2f * m_b) * x + m_c;
-            case 2:
-                x -= m_dim.xMin;
-                return 6f * m_a * x + 2f * m_b;
-            case 3:
-                return 6f * m_a;
-            default:
-                return 0;
-        }
+        return derivativeGen(x - m_dim.xMin, n, new[] {m_a, m_b, m_c, m_d});
     }
 }
