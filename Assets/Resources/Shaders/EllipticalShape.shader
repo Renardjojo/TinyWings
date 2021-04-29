@@ -2,10 +2,12 @@
 {
     Properties
     {
+        _Color ("Color", Color) = (1,0,0,1)
+        _ColorEdge ("ColorEdge", Color) = (1,0,0,1)
+        _Edge ("Edge", float) = 1.0
+        _Smoothness ("Smoothness", float) = 0.05
         _Height("Height", float) = 0
         _Width("Width", float) = 0
-        _Dim("Dim", Vector) = (0,0,0,0)
-        _Color("Color", Color) = (1,0,0,1)
         _XMin("XMin", float) = 0
         _XMax("XMax", float) = 0
         _YMin("YMin", float) = 0
@@ -28,8 +30,12 @@
 
             #include "UnityCG.cginc"
 
-            float4 _Dim;
+            fixed4 _ColorEdge;
             fixed4 _Color;
+            float _Edge;
+            float _Smoothness;
+            float _Height;
+            float _Width;
             float _XMin;
             float _XMax;
             float _YMin;
@@ -85,27 +91,25 @@
                 }
             }
 
-            float IsPointInsideFuntion(float2 pt, float transitionHalfWidth = .005)
+            float2 localToGlobalUVInRect(fixed2 uv)
             {
-                return smoothstep(pt.y - transitionHalfWidth, pt.y + transitionHalfWidth, computeElliptic(pt.x));
+                return float2(uv.x * _Width, uv.y * _Height);
             }
 
-            float2 localToGlobalUVInRect(float2 uv)
+            fixed4 ComputeCurveColor(fixed2 pt)
             {
-                float2 pt = uv;
-                pt.x *= _Dim.z - _Dim.x;
-                pt.y *= _Dim.w - _Dim.y;
-
-                pt.x += _Dim.x;
-                pt.y += _Dim.y;
-
-                return pt;
+                float y = computeElliptic(pt.x);
+                
+                float isPtInsideFunctionEdgeValue = smoothstep(pt.y - _Smoothness, pt.y + _Smoothness, y) * smoothstep(y - _Smoothness * 20.0, y + _Smoothness * 20.0, pt.y + _Edge);
+                float isPtInsideFunctionValue = smoothstep(pt.y - _Smoothness, pt.y + _Smoothness, y);
+                return _Color * isPtInsideFunctionValue * (1.0 - isPtInsideFunctionEdgeValue) + isPtInsideFunctionEdgeValue * _ColorEdge;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                return _Color * IsPointInsideFuntion(localToGlobalUVInRect(i.uv));
+                return ComputeCurveColor(localToGlobalUVInRect(i.uv));
             }
+            
             ENDCG
         }
     }

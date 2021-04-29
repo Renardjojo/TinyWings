@@ -2,12 +2,12 @@
 {
     Properties
     {
+        _Color ("Color", Color) = (1,0,0,1)
+        _ColorEdge ("ColorEdge", Color) = (1,0,0,1)
         _Edge ("Edge", float) = 1.0
         _Smoothness ("Smoothness", float) = 0.05
         _Height ("Height", float) = 0
         _Width ("Width", float) = 0
-        _Color ("Color", Color) = (1,0,0,1)
-        _ColorEdge ("ColorEdge", Color) = (1,0,0,1)
         _Amplitude ("Amplitude", float) = 0
         _VOffset ("VOffset", float) = 0
         _Pulsation ("Pulsation", float) = 0
@@ -41,12 +41,12 @@
                 float4 vertex : SV_POSITION;
             };
 
+            fixed4 _ColorEdge;
+            fixed4 _Color;
             float _Edge;
             float _Smoothness;
             float _Height;
             float _Width;
-            fixed4 _ColorEdge;
-            fixed4 _Color;
             fixed _Amplitude;
             fixed _VOffset;
             fixed _Pulsation;
