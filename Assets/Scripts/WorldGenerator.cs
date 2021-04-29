@@ -46,11 +46,9 @@ public class WorldGenerator : MonoBehaviour
         float height = Random.Range(vScale.x, vScale.y);
         float width = Random.Range(hScale.x, hScale.y);
 
-        //EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
-        // EType functionType = (EType)Random.Range(0, (int)EType.ELLIPTIC);
-
-        EInflexionType inflexionType = EInflexionType.DESCANDANTE;
-        EType functionType = EType.ELLIPTIC;
+        EInflexionType inflexionType = (EInflexionType)Random.Range(0, (int)EInflexionType.COUNT);
+        EType functionType = (EType)Random.Range(0, (int)EType.POLYNOME);
+        EChunkType chunkType = (EChunkType)Random.Range(0, (int)EChunkType.COUNT);
 
         if (inflexionType == EInflexionType.DESCANDANTE)
         {
@@ -60,12 +58,11 @@ public class WorldGenerator : MonoBehaviour
         Rect dimension = new Rect( offsetX, offsetY, width, height);
         
         GameObject chunkGO = Instantiate(chunkPrefab);
-        chunkGO.transform.SetParent(transform);
         Chunk chunk = chunkGO.GetComponent<Chunk>();
 
         Assert.IsNotNull(chunk, "chunk component not found");
 
-        chunk.Apply(functionType, inflexionType, dimension);
+        chunk.Apply(functionType, inflexionType, dimension, chunkType);
         chunks.Add(chunk);
     }
 

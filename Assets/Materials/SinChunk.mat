@@ -61,9 +61,11 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _Edge: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _Height: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -71,11 +73,13 @@ Material:
     - _Phase: 0
     - _Pow: 0
     - _Pulsation: 0
+    - _Smoothness: 0.04
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _VOffset: 0
+    - _Width: 0
     - _ZWrite: 1
     - _isAcs: 0
     - _isBending: 0
@@ -83,5 +87,6 @@ Material:
     - _isDesc: 0
     m_Colors:
     - _Color: {r: 0.6117647, g: 0.9450981, b: 0.9450981, a: 1}
+    - _ColorEdge: {r: 1, g: 1, b: 1, a: 1}
     - _Dim: {r: 0, g: 0, b: 198.94792, a: 36.72907}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

@@ -23,6 +23,9 @@ public class PlayerControler : MonoBehaviour
     [SerializeField] private TextFloatLink MV;
 
     private float s = 0, ms = 0, v = 0, mv = 0;
+    
+    int framesPassed = 0;
+    float fpsTotal = 0f;
 
     [SerializeField]
     private CinemachineVirtualCamera vcam;
@@ -31,21 +34,7 @@ public class PlayerControler : MonoBehaviour
 
     /* Public Variables */
     public float FPSDisplayfrequency = 0.25f;
-    
-    private IEnumerator FPSCorroutine() {
-        for(;;){
-            // Capture frame-per-second
-            int lastFrameCount = Time.frameCount;
-            float lastTime = Time.realtimeSinceStartup;
-            yield return new WaitForSeconds(FPSDisplayfrequency);
-            float timeSpan = Time.realtimeSinceStartup - lastTime;
-            int frameCount = Time.frameCount - lastFrameCount;
- 
-            // Display it
-            FPS.SetTextWithRoundFloat(Mathf.RoundToInt(frameCount / timeSpan));
-        }
-    }
-    
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -56,7 +45,6 @@ public class PlayerControler : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(FPSCorroutine());
         minZCameraPos = vcam.m_Lens.OrthographicSize;
 
         MS.SetTextWithRoundFloat(ms);
@@ -66,6 +54,11 @@ public class PlayerControler : MonoBehaviour
     void Update()
     {
         Zoom();
+
+        fpsTotal += 1 / Time.unscaledDeltaTime;
+        framesPassed++;
+
+        FPS.SetTextWithRoundFloat(Mathf.RoundToInt(fpsTotal / framesPassed));
     }
 
     private void Zoom()
