@@ -42,6 +42,7 @@ public class PlayerControler : MonoBehaviour
     [SerializeField] private float doneLevelSpeed = 3f;
     [SerializeField] private TextFloatLink FinalScoreText;
     [SerializeField] private GameObject CanvasScoreGO;
+    [SerializeField] private GameObject CanvasGameGO;
     private bool levelIsDone = false;
     
 
@@ -70,6 +71,7 @@ public class PlayerControler : MonoBehaviour
             {
                 m_blurScript.enabled = true;
                 CanvasScoreGO.SetActive(true);
+                CanvasGameGO.SetActive(false);
                 FinalScoreText.SetTextWithRoundFloat(transform.position.x, 0);
             }
             
