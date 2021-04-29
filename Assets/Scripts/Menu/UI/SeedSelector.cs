@@ -26,7 +26,6 @@ public class SeedSelector : MonoBehaviour
         ++m_index;
         PlayerPrefs.SetInt("Seed", m_index);
         m_label.text = m_index.ToString();
-        Random.InitState(m_index);
     }
 
     public void DecrementLabel()
@@ -38,7 +37,5 @@ public class SeedSelector : MonoBehaviour
 
         PlayerPrefs.SetInt("Seed", m_index);
         m_label.text = m_index.ToString();
-        Random.InitState(m_index);
-
     }
 }

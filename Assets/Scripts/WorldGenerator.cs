@@ -29,7 +29,7 @@ public class WorldGenerator : MonoBehaviour
 
     void Start()
     {
-        GenerateChunks(EInflexionType.DESCANDANTE, (EType)Random.Range(0, (int)EType.POLYNOME), (EChunkType)Random.Range(0, (int)EChunkType.COUNT));
+        GenerateChunks(EInflexionType.DESCANDANTE, EType.SINUSOIDE, EChunkType.NONE);
         
         if (Application.isMobilePlatform)
         {
@@ -78,7 +78,7 @@ public class WorldGenerator : MonoBehaviour
         //Add chunk
         while (camera.transform.position.x + camera.m_Lens.OrthographicSize * cameraGenerationAnticipationFactor > chunks.Last().m_dimension.xMax)
         {
-            GenerateChunks((EInflexionType)Random.Range(0, (int)EInflexionType.COUNT), (EType)Random.Range(0, (int)EType.POLYNOME), (EChunkType)Random.Range(0, (int)EChunkType.COUNT));
+            GenerateChunks((EInflexionType)Random.Range(0, (int)EInflexionType.COUNT), (EType)Random.Range(0, (int)EType.HYPBERBOLIC_TAN), (EChunkType)Random.Range(0, (int)EChunkType.COUNT));
         }
         
         //Remove chunk

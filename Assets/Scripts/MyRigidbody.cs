@@ -44,8 +44,8 @@ public class MyRigidbody : MonoBehaviour
         AddForce(GetGravityVector());
         
         Vector2 acceleration = m_force / m_mass;
-        m_velocity = acceleration * Time.fixedDeltaTime;
-        SetPosition(GetPosition() + m_velocity * Time.fixedDeltaTime);
+        m_velocity = acceleration * Time.fixedDeltaTime * Time.timeScale;
+        SetPosition(GetPosition() + m_velocity * Time.fixedDeltaTime * Time.timeScale);
 
         if (m_collider.IsColliding(ref position, ref reactionForce, ref frictionForce))
         {
@@ -64,11 +64,9 @@ public class MyRigidbody : MonoBehaviour
         else
         {
             //Center charater to up vector
-            transform.up = Vector3.Slerp(transform.up, Vector3.up, Time.fixedDeltaTime);
+            transform.up = Vector3.Slerp(transform.up, Vector3.up, Time.fixedDeltaTime * Time.timeScale);
             m_isGrounded = false;
         }
-
-
         
         Debug.DrawLine(transform.position, transform.position + new Vector3(GetGravityVector().x, GetGravityVector().y, 0f), Color.red);
     }

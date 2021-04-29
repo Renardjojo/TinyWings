@@ -34,6 +34,20 @@ public class GameController : MonoBehaviour
     {
         Application.OpenURL(URL);
     }
+
+    public void ResetLevel()
+    {
+        Time.timeScale = 1f;
+        Random.InitState(PlayerPrefs.GetInt("Seed", 0));
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    
+    public void StartLevelWithName(string name)
+    {
+        Time.timeScale = 1f;
+        Random.InitState(PlayerPrefs.GetInt("Seed", 0));
+        SceneManager.LoadScene(name, LoadSceneMode.Single);
+    }
     
     public void LoadNewSceneWithIndex(int index)
     {
