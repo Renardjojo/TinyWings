@@ -34,13 +34,34 @@ public class Elliptical : Function
         }
         else if (n == 2)
         {
-            if (x < (m_dim.xMax - m_dim.xMin) / 2f + m_dim.xMin)
+            float a, b, c, d = 0f;
+
+            a = m_dim.yMin;
+            b = m_dim.yMax;
+            c = m_dim.xMin;
+            d = m_dim.xMax;
+
+            if(m_type == EInflexionType.ASCENDANTE)
             {
-                return 3 * (m_dim.yMax - m_dim.yMin) / (m_dim.xMax - m_dim.xMin) * (m_dim.xMax - m_dim.xMin) * (1 - Mathf.Pow(sqr3 * (x - m_dim.xMin) / k, 2)) * Mathf.Sqrt(1 - Mathf.Pow(sqr3 * (x - m_dim.xMin) / k, 2));
+                if (x < (m_dim.xMax - m_dim.xMin) / 2f + m_dim.xMin)
+                {
+                    return 3 * (a - b) * Mathf.Abs(c - d) / Mathf.Pow(-2 * c * c - 2 * c * d + 6 * c * x + d * d - 3 * x * x, 3 / 2f);
+                }
+                else
+                {
+                    return -3 * (a - b) * (d - c) / Mathf.Pow(c * c - 2 * c * d - 2 * d * d + 6 * d * x - 3 * x * x, 3 / 2f);
+                }
             }
             else
             {
-                return 3 * (m_dim.yMax - m_dim.yMin) / (m_dim.xMin - m_dim.xMax) * (m_dim.xMin - m_dim.xMax) * (1 - Mathf.Pow(sqr3 * (x - m_dim.xMax) / k, 2)) * Mathf.Sqrt(1 - Mathf.Pow(sqr3 * (x - m_dim.xMax) / k, 2));
+                if (x < (m_dim.xMax - m_dim.xMin) / 2f + m_dim.xMin)
+                {
+                    return -3 * (a - b) * Mathf.Abs(c - d) / Mathf.Pow(-2 * c * c - 2 * c * d + 6 * c * x + d * d - 3 * x * x, 3 / 2f);
+                }
+                else
+                {
+                    return 3 * (a - b) * (d - c) / Mathf.Pow(c * c - 2 * c * d - 2 * d * d + 6 * d * x - 3 * x * x, 3 / 2f);
+                }
             }
         }
 
