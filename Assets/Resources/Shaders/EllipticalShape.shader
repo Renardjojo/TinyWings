@@ -2,6 +2,8 @@
 {
     Properties
     {
+        _Height("Height", float) = 0
+        _Width("Width", float) = 0
         _Dim("Dim", Vector) = (0,0,0,0)
         _Color("Color", Color) = (1,0,0,1)
         _XMin("XMin", float) = 0
@@ -9,20 +11,20 @@
         _YMin("YMin", float) = 0
         _YMax("YMax", float) = 0
         _IsDesc("IsDesc", int) = 0
-        _VOffset("VOffset", float) = 0
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "Queue" = "Transparent" "RenderType" = "Transparent" "IgnoreProjector" = "True" }
         LOD 100
 
         Pass
         {
+            ZWrite Off
+            Blend SrcAlpha OneMinusSrcAlpha
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
 
@@ -32,9 +34,7 @@
             float _XMax;
             float _YMin;
             float _YMax;
-            float _IsDesc;
-            float _VOffset;
-            float s = sqrt(3);
+            int _IsDesc;
 
             struct appdata
             {
@@ -45,32 +45,44 @@
             struct v2f
             {
                 float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
             };
-
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv, _MainTex;
+                o.uv = v.uv;
                 return o;
             }
 
             float computeElliptic(float x)
             {
-/*                if (x < = (XMax - XMin) / 2f + XMin)
+                float vOffSet = 0.0f;
+                float sqr3 = sqrt(3);
+
+                if (_IsDesc == 1)
                 {
-                    
+                    vOffSet = _YMax - _YMin;
+
+                    if (x < (_XMax - _XMin) / 2.0f + _XMin)
+                         return _YMin + vOffSet * sqrt(1 - pow(sqr3 * (x - _XMin) / (_XMax - _XMin), 2));
+                    else
+                       return _YMax - vOffSet * sqrt(1 - pow(sqr3 * (x - _XMax) / (_XMax - _XMin), 2));
                 }
                 else
                 {
-                    
-                }*/
-                return 0.0f;
+                    if (x < (_XMax - _XMin) / 2.0f + _XMin)
+                    {
+                        vOffSet = _YMin - _YMax;
+                        return _YMax + vOffSet * sqrt(1 - pow(sqr3 * (x - _XMin) / (_XMax - _XMin), 2));
+                    }
+                    else
+                    {
+                        vOffSet = _YMax - _YMin;
+                        return _YMin + vOffSet * sqrt(1 - pow(sqr3 * (x - _XMax) / (_XMax - _XMin), 2));
+                    }
+                }
             }
 
             float IsPointInsideFuntion(float2 pt, float transitionHalfWidth = .005)
@@ -92,11 +104,7 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
-                // apply fog
-                UNITY_APPLY_FOG(i.fogCoord, col);
-                return col;
+                return _Color * IsPointInsideFuntion(localToGlobalUVInRect(i.uv));
             }
             ENDCG
         }
