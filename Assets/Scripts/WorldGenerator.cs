@@ -36,6 +36,11 @@ public class WorldGenerator : MonoBehaviour
             QualitySettings.vSyncCount = 1;
             Application.targetFrameRate = 60;
         }
+        else
+        {
+            QualitySettings.vSyncCount = 1;
+            //Application.targetFrameRate = 60;
+        }
     }
     
     private void GenerateChunks(EInflexionType inflexionType, EType functionType, EChunkType chunkType)

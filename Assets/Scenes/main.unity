@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.07617339, g: 0.29128283, b: 0.5846712, a: 1}
+  m_IndirectSpecularColor: {r: 0.07680332, g: 0.29139662, b: 0.5846935, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1568,12 +1568,12 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RenderingPath: -1
+  m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -1587,7 +1587,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846186100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.6808815, y: 22.36, z: -10}
+  m_LocalPosition: {x: 7.9893866, y: 22.36, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1608,8 +1608,8 @@ MonoBehaviour:
   renderMode: 0
   kernelSize: 0
   interpolation: 0
-  downsample: 0
-  iterations: 4
+  downsample: 1
+  iterations: 2
   gammaCorrection: 1
   blurMaterial: {fileID: 2100000, guid: 5748f1053ef95af479ba64617b0a6e62, type: 2}
   UIMaterial: {fileID: 2100000, guid: 5d20a3658f431c24ba3f9cbfb6c96601, type: 2}
@@ -1831,7 +1831,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1134749330}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.6808815, y: 22.36, z: -10}
+  m_LocalPosition: {x: 7.9893866, y: 22.36, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 778867337}
